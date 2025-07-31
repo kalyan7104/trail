@@ -52,6 +52,8 @@ export default function PatientRegister() {
   };
 
  
+const BASE_URL = 'https://mock-apis-pgcn.onrender.com';
+
 const onSubmit = async (data: PatientRegistrationForm) => {
   setIsLoading(true);
   setApiError('');
@@ -60,8 +62,8 @@ const onSubmit = async (data: PatientRegistrationForm) => {
     const { confirmPassword, ...patientData } = data;
     const newId = uuidv4(); // Shared ID
 
-    // Step 1: POST to patient-profile with full data
-    await fetch('http://localhost:3001/patient-profile', {
+    // Step 1: POST to patient-profile
+    await fetch(`${BASE_URL}/patient-profile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -71,8 +73,8 @@ const onSubmit = async (data: PatientRegistrationForm) => {
       })
     });
 
-    // Step 2: POST to patient-login with same id
-    await fetch('http://localhost:3001/patient-login', {
+    // Step 2: POST to patient-login
+    await fetch(`${BASE_URL}/patient-login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
