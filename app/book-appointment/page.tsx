@@ -3,6 +3,8 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+const BASE_URL = 'https://mock-apis-pgcn.onrender.com'; // ✅ Use deployed backend
+
 function BookAppointmentContent() {
   const [doctors, setDoctors] = useState<any[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState<any>(null);
@@ -29,7 +31,7 @@ function BookAppointmentContent() {
     setPatientData(JSON.parse(stored));
 
     const fetchDoctors = async () => {
-      const res = await fetch('http://localhost:3001/doctors');
+      const res = await fetch(`${BASE_URL}/doctors`);
       const data = await res.json();
       setDoctors(data);
 
@@ -63,37 +65,38 @@ function BookAppointmentContent() {
     };
 
     try {
-  const res = await fetch('http://localhost:3001/appointments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(appointmentData),
-  });
-  const result = await res.json();
-  setAppointmentDetails(result);
-  setShowSuccess(true);
+      const res = await fetch(`${BASE_URL}/appointments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(appointmentData),
+      });
+      const result = await res.json();
+      setAppointmentDetails(result);
+      setShowSuccess(true);
 
-  // Create notification
-  const notification = {
-    patientId: patientData.id,
-    type: 'appointment_booked',
-    title: 'Appointment Confirmed',
-    message: `Your appointment with ${selectedDoctor.name} on ${selectedDate} at ${selectedTime} has been confirmed.`,
-    read: false,
-    createdAt: new Date().toISOString()
-  };
+      const notification = {
+        patientId: patientData.id,
+        type: 'appointment_booked',
+        title: 'Appointment Confirmed',
+        message: `Your appointment with ${selectedDoctor.name} on ${selectedDate} at ${selectedTime} has been confirmed.`,
+        read: false,
+        createdAt: new Date().toISOString()
+      };
 
-  await fetch('http://localhost:3001/notifications', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(notification)
-  });
+      await fetch(`${BASE_URL}/notifications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(notification)
+      });
 
-  setTimeout(() => {
-    router.push('/patient-dashboard');
-  }, 3000);
-} catch (err) {
-  console.error('Failed to book:', err);
-}
+      setTimeout(() => {
+        router.push('/patient-dashboard');
+      }, 3000);
+    } catch (err) {
+      console.error('Failed to book:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getNextDays = (count: number) => {
@@ -138,7 +141,6 @@ function BookAppointmentContent() {
     <div className="min-h-screen bg-gray-50 p-4">
       <h1 className="text-2xl font-bold mb-6 text-center">Book Appointment</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow space-y-6">
-        {/* Doctor Selection */}
         {!doctorId && (
           <div>
             <h3 className="font-semibold mb-2">Select a Doctor:</h3>
@@ -163,7 +165,6 @@ function BookAppointmentContent() {
           </div>
         )}
 
-        {/* Selected Doctor Summary */}
         {selectedDoctor && (
           <div className="p-3 border rounded-xl bg-blue-50 border-blue-200">
             <p className="font-semibold">Doctor: {selectedDoctor.name}</p>
@@ -171,7 +172,6 @@ function BookAppointmentContent() {
           </div>
         )}
 
-        {/* Date Selection */}
         <div>
           <h3 className="font-semibold mb-2">Select Date:</h3>
           <div className="grid grid-cols-3 gap-2">
@@ -190,7 +190,6 @@ function BookAppointmentContent() {
           </div>
         </div>
 
-        {/* Time Selection */}
         <div>
           <h3 className="font-semibold mb-2">Select Time:</h3>
           <div className="grid grid-cols-3 gap-2">
@@ -213,7 +212,6 @@ function BookAppointmentContent() {
           </div>
         </div>
 
-        {/* Appointment Type */}
         <div>
           <label className="block font-semibold mb-1">Type of Appointment:</label>
           <select
@@ -228,7 +226,6 @@ function BookAppointmentContent() {
           </select>
         </div>
 
-        {/* Notes */}
         <div>
           <label className="block font-semibold mb-1">Additional Notes (optional):</label>
           <textarea
