@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { doctorLoginSchema } from '@/lib/validationSchemas';
 import { doctorAPI } from '@/lib/api';
+import { useDoctorAuth } from '@/contexts/DoctorAuthContext';
 
 interface DoctorLoginForm {
   email: string;
@@ -18,6 +18,7 @@ export default function DoctorLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const router = useRouter();
+  const { login } = useDoctorAuth();
 
   const {
     register,
@@ -28,31 +29,19 @@ export default function DoctorLogin() {
   });
 
   const onSubmit = async (data: DoctorLoginForm) => {
-  setIsLoading(true);
-  setApiError('');
+    setIsLoading(true);
+    setApiError('');
 
-  try {
-    // GET request to check if email and password match any record
-    const res = await fetch(`http://localhost:3001/doctor-login?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`);
-    const result = await res.json();
-
-    if (result.length === 0) {
-      throw new Error('Invalid email or password');
+    try {
+      const doctor = await doctorAPI.login(data.email, data.password);
+      login(doctor); // Set context
+      router.push('/doctor-dashboard');
+    } catch (error: any) {
+      setApiError(error.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-
-    const doctor = result[0];
-
-    localStorage.setItem('userType', 'doctor');
-    localStorage.setItem('doctorData', JSON.stringify(doctor));
-
-    router.push('/doctor-dashboard');
-  } catch (error: any) {
-    setApiError(error.message || 'Login failed. Please try again.');
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
@@ -78,7 +67,7 @@ export default function DoctorLogin() {
               <input
                 {...register('email')}
                 type="email"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 placeholder="Enter your email"
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
@@ -89,7 +78,7 @@ export default function DoctorLogin() {
               <input
                 {...register('password')}
                 type="password"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                 placeholder="Enter your password"
               />
               {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
