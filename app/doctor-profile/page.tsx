@@ -3,8 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useDoctorAuth } from '@/contexts/DoctorAuthContext';
+
+// ✅ Define the API base URL here
+const BASE_URL = 'https://mock-apis-pgcn.onrender.com';
 
 export default function DoctorProfile() {
+  const { doctor, logout } = useDoctorAuth();
+  const router = useRouter();
+
   const [doctorData, setDoctorData] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -20,45 +27,41 @@ export default function DoctorProfile() {
     education: '',
     about: ''
   });
-  const router = useRouter();
 
   useEffect(() => {
-  const fetchDoctorProfile = async () => {
-    const localData = localStorage.getItem('doctorData');
-    if (!localData) {
+    if (!doctor) {
       router.push('/doctor-login');
       return;
     }
 
-    const doctorFromStorage = JSON.parse(localData);
-    try {
-      const response = await fetch(`http://localhost:3001/doctor-profile/${doctorFromStorage.id}`);
-      if (!response.ok) throw new Error('Failed to fetch profile');
+    const fetchDoctorProfile = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/doctor-profile/${doctor.id}`);
+        if (!response.ok) throw new Error('Failed to fetch profile');
 
-      const freshDoctor = await response.json();
-      setDoctorData(freshDoctor);
-      setProfilePicture(freshDoctor.profilePicture || null);
-      localStorage.setItem('doctorData', JSON.stringify(freshDoctor));
+        const freshDoctor = await response.json();
+        setDoctorData(freshDoctor);
+        setProfilePicture(freshDoctor.profilePicture || null);
 
-      setFormData({
-        name: freshDoctor.name || '',
-        email: freshDoctor.email || '',
-        phone: freshDoctor.phone || '',
-        specialty: freshDoctor.specialty || '',
-        hospital: freshDoctor.hospital || '',
-        experience: freshDoctor.experience || '',
-        license: freshDoctor.license || '',
-        education: freshDoctor.education || 'MD from Medical University',
-        about: freshDoctor.about || 'Experienced medical professional dedicated to providing quality healthcare.'
-      });
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-    }
-  };
+        setFormData({
+          name: freshDoctor.name || '',
+          email: freshDoctor.email || '',
+          phone: freshDoctor.phone || '',
+          specialty: freshDoctor.specialty || '',
+          hospital: freshDoctor.hospital || '',
+          experience: freshDoctor.experience || '',
+          license: freshDoctor.license || '',
+          education: freshDoctor.education || '',
+          about: freshDoctor.about || ''
+        });
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        router.push('/doctor-login');
+      }
+    };
 
-  fetchDoctorProfile();
-}, [router]);
-
+    fetchDoctorProfile();
+  }, [doctor, router]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -72,50 +75,46 @@ export default function DoctorProfile() {
   };
 
   const handleSave = async () => {
-  if (!doctorData?.id) return;
-  setIsSaving(true);
+    if (!doctorData?.id) return;
+    setIsSaving(true);
 
-  try {
-    const updatedPayload = {
-      ...formData,
-      profilePicture: profilePicture || null,
-      id: doctorData.id,
-    };
+    try {
+      const updatedPayload = {
+        ...formData,
+        profilePicture: profilePicture || null,
+        id: doctorData.id,
+      };
 
-    // Step 1: Update doctor-profile
-    const res = await fetch(`http://localhost:3001/doctor-profile/${doctorData.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedPayload),
-    });
-
-    if (!res.ok) throw new Error('Failed to update profile');
-
-    const updatedDoctor = await res.json();
-    localStorage.setItem('doctorData', JSON.stringify(updatedDoctor));
-    setDoctorData(updatedDoctor);
-
-    // Step 2: PATCH doctor-login email if changed
-    if (formData.email !== doctorData.email) {
-      await fetch(`http://localhost:3001/doctor-login/${doctorData.id}`, {
-        method: 'PATCH',
+      const res = await fetch(`${BASE_URL}/doctor-profile/${doctorData.id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.email }),
+        body: JSON.stringify(updatedPayload),
       });
+
+      if (!res.ok) throw new Error('Failed to update profile');
+
+      const updatedDoctor = await res.json();
+      setDoctorData(updatedDoctor);
+
+      // Optional: update login reference if email was changed
+      if (formData.email !== doctorData.email) {
+        await fetch(`${BASE_URL}/doctor-login/${doctorData.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email }),
+        });
+      }
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+    } finally {
+      setIsSaving(false);
     }
-
-    setIsEditing(false);
-  } catch (error) {
-    console.error('Error saving profile:', error);
-  } finally {
-    setIsSaving(false);
-  }
-};
-
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('doctorData');
-    localStorage.removeItem('userType');
+    logout();
     router.push('/');
   };
 
