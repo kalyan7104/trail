@@ -3,60 +3,85 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useDoctorAuth } from '@/contexts/DoctorAuthContext'; // ✅ context hook
 
 export default function DoctorHelpSupport() {
-  const [activeTab, setActiveTab] = useState<'faqs' | 'contact'>('faqs');
+  const { doctor } = useDoctorAuth(); // ✅ use context instead of localStorage
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'faqs' | 'contact'>('faqs');
+  const [isLoading, setIsLoading] = useState(true); // ✅ to prevent early redirect
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   useEffect(() => {
-    const doctorData = localStorage.getItem('doctorData');
-    if (!doctorData) {
-      router.push('/doctor-login');
-      return;
+    // Wait for doctor context to hydrate before redirecting
+    if (doctor === null) {
+      const timer = setTimeout(() => {
+        router.push('/doctor-login');
+      }, 300);
+      return () => clearTimeout(timer);
     }
-  }, [router]);
 
-  const faqs = [
-    {
-      question: 'How do I manage my appointment schedule?',
-      answer: 'You can view and manage your appointments through the Doctor Appointments section. You can update appointment status, reschedule, or cancel appointments as needed.'
-    },
-    {
-      question: 'How do I update my profile information?',
-      answer: 'Go to your profile page and click the "Edit" button. You can update your personal information, add your photo, and modify your professional details.'
-    },
-    {
-      question: 'How do I view patient information?',
-      answer: 'Patient information is available in the appointment details. You can see basic patient details and appointment history for better consultation preparation.'
-    },
-    {
-      question: 'Can I set my availability hours?',
-      answer: 'Yes, you can set your working hours and availability through your profile settings. This helps patients book appointments only during your available hours.'
-    },
-    {
-      question: 'How do I handle emergency appointments?',
-      answer: 'Emergency appointments are marked with a special indicator. You can prioritize these appointments and adjust your schedule accordingly.'
-    },
-    {
-      question: 'What if I need to cancel multiple appointments?',
-      answer: 'You can cancel multiple appointments from your schedule page. Select the appointments you want to cancel and use the bulk actions feature.'
-    },
-    {
-      question: 'How do I communicate with patients?',
-      answer: 'You can leave notes for patients through the appointment system. For urgent matters, use the contact information provided in the patient details.'
-    },
-    {
-      question: 'How do I track my patient statistics?',
-      answer: 'Your dashboard provides an overview of your patient statistics including total patients, appointments completed, and performance metrics.'
+    if (doctor) {
+      setIsLoading(false);
     }
-  ];
-
-  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  }, [doctor]);
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  const faqs = [
+    {
+      question: 'How do I manage my appointment schedule?',
+      answer:
+        'You can view and manage your appointments through the Doctor Appointments section. You can update appointment status, reschedule, or cancel appointments as needed.',
+    },
+    {
+      question: 'How do I update my profile information?',
+      answer:
+        'Go to your profile page and click the "Edit" button. You can update your personal information, add your photo, and modify your professional details.',
+    },
+    {
+      question: 'How do I view patient information?',
+      answer:
+        'Patient information is available in the appointment details. You can see basic patient details and appointment history for better consultation preparation.',
+    },
+    {
+      question: 'Can I set my availability hours?',
+      answer:
+        'Yes, you can set your working hours and availability through your profile settings. This helps patients book appointments only during your available hours.',
+    },
+    {
+      question: 'How do I handle emergency appointments?',
+      answer:
+        'Emergency appointments are marked with a special indicator. You can prioritize these appointments and adjust your schedule accordingly.',
+    },
+    {
+      question: 'What if I need to cancel multiple appointments?',
+      answer:
+        'You can cancel multiple appointments from your schedule page. Select the appointments you want to cancel and use the bulk actions feature.',
+    },
+    {
+      question: 'How do I communicate with patients?',
+      answer:
+        'You can leave notes for patients through the appointment system. For urgent matters, use the contact information provided in the patient details.',
+    },
+    {
+      question: 'How do I track my patient statistics?',
+      answer:
+        'Your dashboard provides an overview of your patient statistics including total patients, appointments completed, and performance metrics.',
+    },
+  ];
+
+  
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
