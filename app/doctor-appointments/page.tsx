@@ -3,23 +3,21 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useDoctorAuth } from '@/contexts/DoctorAuthContext';
 
 export default function DoctorAppointments() {
+  const { doctor } = useDoctorAuth();
   const [appointments, setAppointments] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [doctorData, setDoctorData] = useState<any>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const userData = localStorage.getItem('doctorData');
-    if (!userData) {
+    if (!doctor) {
       router.push('/doctor-login');
       return;
     }
-    
-    setDoctorData(JSON.parse(userData));
-    
-    // Mock appointments data
+
+    // TODO: Replace with real API fetch by doctor ID if needed
     setAppointments([
       {
         id: 'A001',
@@ -70,52 +68,63 @@ export default function DoctorAppointments() {
         avatar: 'https://readdy.ai/api/search-image?query=Professional%20headshot%20of%20middle-aged%20woman%20with%20short%20hair%2C%20professional%20attire%2C%20warm%20expression%2C%20clean%20background&width=50&height=50&seq=patient4&orientation=squarish'
       }
     ]);
-  }, [router]);
+  }, [doctor, router]);
+
+  const handleStatusChange = (appointmentId: string, newStatus: string) => {
+    setAppointments((prev) =>
+      prev.map((apt) =>
+        apt.id === appointmentId ? { ...apt, status: newStatus } : apt
+      )
+    );
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'waiting': return 'bg-yellow-100 text-yellow-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'confirmed':
+        return 'bg-green-100 text-green-800';
+      case 'waiting':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'completed':
+        return 'bg-blue-100 text-blue-800';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
-  };
-
-  const handleStatusChange = (appointmentId: string, newStatus: string) => {
-    setAppointments(appointments.map(apt => 
-      apt.id === appointmentId ? { ...apt, status: newStatus } : apt
-    ));
   };
 
   const getNext7Days = () => {
     const dates = [];
     const today = new Date();
-    
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       dates.push({
         value: date.toISOString().split('T')[0],
-        label: date.toLocaleDateString('en-US', { 
-          weekday: 'short', 
-          month: 'short', 
-          day: 'numeric' 
+        label: date.toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
         }),
         isToday: i === 0
       });
     }
-    
     return dates;
   };
 
-  if (!doctorData) {
+  if (!doctor) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
+
+  // ✅ Keep all the existing JSX (header, date selector, list, etc.) from your current code.
+  // No change is needed in design; only logic now uses context-based doctor instead of localStorage.
+
+ 
+
 
   return (
     <div className="min-h-screen bg-gray-50">
