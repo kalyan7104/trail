@@ -4,69 +4,65 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { checkDoctorAuth, redirectToDoctorLogin } from '@/lib/authGuard';
+import { useDoctorAuth } from '@/contexts/DoctorAuthContext';
 
 export default function DoctorDashboard() {
-  const [doctorData, setDoctorData] = useState<any>(null);
+  const { doctor, logout } = useDoctorAuth();
   const [todayAppointments, setTodayAppointments] = useState<any[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    if (!checkDoctorAuth()) {
-      redirectToDoctorLogin();
+    if (!doctor) {
+      router.push('/doctor-login');
       return;
     }
-    
-    const userData = localStorage.getItem('doctorData');
-    const doctor = JSON.parse(userData!);
-    setDoctorData(doctor);
-    
-    // Load today's appointments
+
     loadTodayAppointments();
-  }, [router]);
+  }, [doctor]);
 
   const loadTodayAppointments = () => {
-    // Mock today's appointments
-    const today = new Date().toISOString().split('T')[0];
     const mockAppointments = [
       {
         id: 'A001',
         patientName: 'John Smith',
         time: '10:00 AM',
         type: 'Consultation',
-        status: 'confirmed'
+        status: 'confirmed',
       },
       {
         id: 'A002',
         patientName: 'Emily Johnson',
         time: '11:30 AM',
         type: 'Follow-up',
-        status: 'waiting'
+        status: 'waiting',
       },
       {
         id: 'A003',
         patientName: 'Michael Brown',
         time: '2:00 PM',
         type: 'Check-up',
-        status: 'confirmed'
-      }
+        status: 'confirmed',
+      },
     ];
     setTodayAppointments(mockAppointments);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('doctorData');
-    localStorage.removeItem('userType');
+    logout(); // Clear context + localStorage
     router.push('/');
   };
 
-  if (!doctorData) {
+  if (!doctor) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
+
+  // 🟦 The entire JSX structure remains unchanged — same design
+  
+
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -76,15 +72,15 @@ export default function DoctorDashboard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
-                {doctorData.profilePicture ? (
-                  <img src={doctorData.profilePicture} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                {doctor.profilePicture ? (
+                  <img src={doctor.profilePicture} alt="Profile" className="w-full h-full rounded-full object-cover" />
                 ) : (
                   <i className="ri-stethoscope-line text-white text-lg"></i>
                 )}
               </div>
               <div>
-                <h1 className="text-lg font-semibold text-gray-900">{doctorData.name}</h1>
-                <p className="text-sm text-gray-500">{doctorData.specialty}</p>
+                <h1 className="text-lg font-semibold text-gray-900">{doctor.name}</h1>
+                <p className="text-sm text-gray-500">{doctor.specialty}</p>
               </div>
             </div>
             <button
@@ -111,14 +107,14 @@ export default function DoctorDashboard() {
             <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <i className="ri-user-line text-green-600"></i>
             </div>
-            <p className="text-2xl font-bold text-gray-900">{doctorData.totalPatients || 0}</p>
+            <p className="text-2xl font-bold text-gray-900">{doctor.totalPatients || 0}</p>
             <p className="text-sm text-gray-600">Patients</p>
           </div>
           <div className="bg-white rounded-xl p-4 text-center shadow-sm">
             <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
               <i className="ri-star-line text-yellow-600"></i>
             </div>
-            <p className="text-2xl font-bold text-gray-900">{doctorData.rating || 4.5}</p>
+            <p className="text-2xl font-bold text-gray-900">{doctor.rating || 4.5}</p>
             <p className="text-sm text-gray-600">Rating</p>
           </div>
         </div>
