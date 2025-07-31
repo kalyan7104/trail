@@ -1,0 +1,185 @@
+{
+  "patient-login": [
+    {
+      "id": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "email": "Lokesh@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "email": "kalyankumarmunjuluri@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "doctor-login": [
+    {
+      "id": "2439b496-8173-4066-92a3-52b8d79dd430",
+      "email": "Satish@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "patient-profile": [
+    {
+      "name": "lokesh",
+      "email": "lokesh@gmail.com",
+      "phone": "70980928",
+      "dateOfBirth": "2025-07-31",
+      "address": "andhra",
+      "emergencyContact": "8974029890",
+      "bloodType": "O+",
+      "allergies": "none",
+      "medications": "none",
+      "profilePicture": null,
+      "id": "ad96f831-f9c8-4c9b-8217-daca679b3c5a"
+    },
+    {
+      "name": "kalyan kumar",
+      "email": "kalyankumarmunjuluri@gmail.com",
+      "phone": "8639302460",
+      "dateOfBirth": "2025-07-17",
+      "address": "wetrysys",
+      "emergencyContact": "+1 234 567 8901",
+      "bloodType": "O+",
+      "allergies": "nothin",
+      "medications": "nothing",
+      "profilePicture": null,
+      "id": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d"
+    }
+  ],
+  "doctor-profile": [
+    {
+      "name": "satish",
+      "email": "Satish@gmail.com",
+      "phone": "874509802",
+      "specialty": "Cardiologist",
+      "hospital": "hospital",
+      "experience": "5",
+      "license": "MD-2002",
+      "education": "MBBS",
+      "about": "specailist in kidney related",
+      "profilePicture": null,
+      "id": "2439b496-8173-4066-92a3-52b8d79dd430"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "D001",
+      "name": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20female%20cardiologist%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=60&height=60&seq=doc1&orientation=squarish"
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-05",
+      "time": "10:00 AM",
+      "appointmentType": "Consultation",
+      "notes": "Follow-up on chest pain",
+      "tokenNumber": "T1234",
+      "status": "confirmed"
+    },
+    {
+      "id": "d95c",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-02",
+      "time": "2:30 PM",
+      "appointmentType": "consultation",
+      "notes": "",
+      "tokenNumber": "T6729",
+      "status": "cancelled"
+    },
+    {
+      "id": "144b",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-01",
+      "time": "10:30 AM",
+      "appointmentType": "follow-up",
+      "notes": "",
+      "tokenNumber": "T1096",
+      "status": "cancelled"
+    },
+    {
+      "id": "f733",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-02",
+      "time": "2:30 PM",
+      "appointmentType": "follow-up",
+      "notes": "",
+      "tokenNumber": "T4755",
+      "status": "cancelled"
+    },
+    {
+      "id": "1c97",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-01",
+      "time": "2:00 PM",
+      "appointmentType": "consultation",
+      "notes": "",
+      "tokenNumber": "T6450",
+      "status": "confirmed"
+    },
+    {
+      "id": "7bfd",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-01",
+      "time": "10:30 AM",
+      "appointmentType": "consultation",
+      "notes": "",
+      "tokenNumber": "T5769",
+      "status": "confirmed"
+    },
+    {
+      "id": "8ad9",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-02",
+      "time": "9:30 AM",
+      "appointmentType": "consultation",
+      "notes": "",
+      "tokenNumber": "T8676",
+      "status": "confirmed"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "2e02",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "type": "appointment_booked",
+      "title": "Appointment Confirmed",
+      "message": "Your appointment with Dr. Sarah Johnson on 2025-08-01 at 10:30 AM has been confirmed.",
+      "read": false,
+      "createdAt": "2025-07-31T11:13:45.332Z"
+    },
+    {
+      "id": "a452",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "type": "appointment_booked",
+      "title": "Appointment Confirmed",
+      "message": "Your appointment with Dr. Sarah Johnson on 2025-08-02 at 9:30 AM has been confirmed.",
+      "read": false,
+      "createdAt": "2025-07-31T11:14:40.860Z"
+    }
+  ]
+}
