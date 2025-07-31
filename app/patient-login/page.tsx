@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { patientLoginSchema } from '@/lib/validationSchemas';
 import { useAuth } from '@/contexts/AuthContext';
+import { patientAPI } from '@/lib/api'; // ✅ Use centralized API
 
 interface PatientLoginForm {
   email: string;
@@ -28,42 +29,19 @@ export default function PatientLogin() {
   });
 
   const onSubmit = async (data: PatientLoginForm) => {
-  setIsLoading(true);
-  setApiError('');
+    setIsLoading(true);
+    setApiError('');
 
-  try {
-    // Step 1: Validate login credentials
-    const loginRes = await fetch(
-      `http://localhost:3001/patient-login?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`
-    );
-    const loginData = await loginRes.json();
-
-    if (loginData.length === 0) {
-      setApiError('Invalid email or password');
-      return;
+    try {
+      const profile = await patientAPI.login(data.email, data.password); // ✅ use api.ts
+      login(profile); // ✅ store in AuthContext
+      router.push('/patient-dashboard');
+    } catch (error: any) {
+      setApiError(error.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-
-    // Step 2: Fetch full profile using email
-    const profileRes = await fetch(
-      `http://localhost:3001/patient-profile?email=${encodeURIComponent(data.email)}`
-    );
-    const profileData = await profileRes.json();
-
-    if (profileData.length === 0) {
-      setApiError('Patient profile not found.');
-      return;
-    }
-
-    // Step 3: Set patient in context
-    login(profileData[0]);
-    router.push('/patient-dashboard');
-
-  } catch (error: any) {
-    setApiError(error.message || 'Login failed. Please try again.');
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
@@ -109,7 +87,7 @@ export default function PatientLogin() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 !rounded-button shadow-lg disabled:opacity-70"
+              className="w-full bg-blue-600 text-white py-4 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg disabled:opacity-70"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center space-x-2">
@@ -130,7 +108,7 @@ export default function PatientLogin() {
 
           <div className="mt-8 pt-6 border-t border-gray-100 text-center">
             <p className="text-sm text-gray-500">
-              Don't have an account?
+              Don&apos;t have an account?
               <Link href="/patient-register" className="text-blue-600 font-medium ml-1">Sign up</Link>
             </p>
           </div>
