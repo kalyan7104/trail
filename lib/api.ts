@@ -1,6 +1,6 @@
 // api.ts (converted to fetch-based API for JSON Server, no localStorage)
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'https://mock-apis-pgcn.onrender.com';
 
 // Helper function
 const handleResponse = async (res: Response) => {
