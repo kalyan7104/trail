@@ -1,6 +1,6 @@
 // api.ts (converted to fetch-based API for JSON Server, no localStorage)
 
-const BASE_URL = 'https://mock-apis-pgcn.onrender.com';
+const BASE_URL = 'http://localhost:3001';
 
 // Helper function
 const handleResponse = async (res: Response) => {
@@ -20,11 +20,23 @@ export const doctorAPI = {
   },
 
   async login(email: string, password: string) {
-    const res = await fetch(`${BASE_URL}/doctor-login?email=${email}&password=${password}`);
-    const users = await handleResponse(res);
-    if (!users.length) throw new Error('Invalid credentials');
-    return users[0];
-  },
+  // Step 1: Authenticate using /doctor-login
+  const res = await fetch(`${BASE_URL}/doctor-login?email=${email}&password=${password}`);
+  const users = await handleResponse(res);
+
+  if (!users.length) throw new Error('Invalid credentials');
+  const loginUser = users[0];
+
+  // Step 2: Fetch doctor profile using the same ID
+  const profileRes = await fetch(`${BASE_URL}/doctor-profile/${loginUser.id}`);
+  if (!profileRes.ok) throw new Error('Doctor profile not found');
+
+  const profile = await profileRes.json();
+
+  // Step 3: Return merged data
+  return { ...loginUser, ...profile };
+}
+,
 
   async updateProfile(id: string, data: any) {
     const res = await fetch(`${BASE_URL}/doctor-profile/${id}`, {

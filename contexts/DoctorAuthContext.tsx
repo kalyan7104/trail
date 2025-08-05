@@ -1,27 +1,40 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const DoctorAuthContext = createContext<any>(null);
+interface Doctor {
+  id: string;
+  email: string;
+  name: string;
+  [key: string]: any;
+}
 
-export const DoctorAuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [doctor, setDoctor] = useState<any>(null);
+interface DoctorAuthContextType {
+  doctor: Doctor | null;
+  login: (doctor: Doctor) => void;
+  logout: () => void;
+}
+
+const DoctorAuthContext = createContext<DoctorAuthContextType | undefined>(undefined);
+
+export function DoctorAuthProvider({ children }: { children: ReactNode }) {
+  const [doctor, setDoctor] = useState<Doctor | null>(null);
 
   useEffect(() => {
-    const storedDoctor = localStorage.getItem('doctor');
-    if (storedDoctor) {
-      setDoctor(JSON.parse(storedDoctor));
+    const stored = localStorage.getItem('doctor');
+    if (stored) {
+      setDoctor(JSON.parse(stored));
     }
   }, []);
 
-  const login = (doctorData: any) => {
-    setDoctor(doctorData);
-    localStorage.setItem('doctor', JSON.stringify(doctorData));
+  const login = (doctor: Doctor) => {
+    localStorage.setItem('doctor', JSON.stringify(doctor));
+    setDoctor(doctor);
   };
 
   const logout = () => {
-    setDoctor(null);
     localStorage.removeItem('doctor');
+    setDoctor(null);
   };
 
   return (
@@ -29,6 +42,12 @@ export const DoctorAuthProvider = ({ children }: { children: React.ReactNode }) 
       {children}
     </DoctorAuthContext.Provider>
   );
-};
+}
 
-export const useDoctorAuth = () => useContext(DoctorAuthContext);
+export function useDoctorAuth() {
+  const context = useContext(DoctorAuthContext);
+  if (!context) {
+    throw new Error('useDoctorAuth must be used within a DoctorAuthProvider');
+  }
+  return context;
+}
