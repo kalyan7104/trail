@@ -285,7 +285,7 @@ export default function DoctorLogin() {
                   className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200"
                 >
                   <p className="text-xs font-semibold text-green-800 mb-2">Demo Account:</p>
-                  <p className="text-xs text-green-700">Email: Satish@gmail.com</p>
+                  <p className="text-xs text-green-700">Email: sarah.johnson@hospital.com</p>
                   <p className="text-xs text-green-700">Password: 123456</p>
                 </motion.div>
               </div>
