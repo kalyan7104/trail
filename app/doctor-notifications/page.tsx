@@ -23,7 +23,7 @@ import {
   Star
 } from 'lucide-react';
 
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
+const BASE_URL="https://mock-apis-pgcn.onrender.com"
 
 interface Notification {
   id: string;
