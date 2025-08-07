@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { appointmentAPI } from '@/lib/api';
 import { useDoctorAuth } from '@/contexts/DoctorAuthContext';
 import { motion } from 'framer-motion';
+import PrescriptionStats from '@/components/PrescriptionStats';
 import { 
   Calendar, 
   Clock, 
@@ -26,7 +27,7 @@ import {
   Activity
 } from 'lucide-react';
 
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
+const BASE_URL="https://mock-apis-pgcn.onrender.com"
 
 export default function DoctorDashboard() {
   const { doctor, logout } = useDoctorAuth();
@@ -271,7 +272,7 @@ export default function DoctorDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
         >
           <Link
             href="/doctor-appointments"
@@ -311,6 +312,14 @@ export default function DoctorDashboard() {
           >
             <Bell className="h-8 w-8" />
             <span className="font-semibold text-center">Notifications</span>
+          </Link>
+
+          <Link
+            href="/doctor-prescriptions"
+            className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-6 rounded-2xl flex flex-col items-center justify-center space-y-3 hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <FileText className="h-8 w-8" />
+            <span className="font-semibold text-center">Prescriptions</span>
           </Link>
         </motion.div>
 
@@ -538,6 +547,9 @@ export default function DoctorDashboard() {
             </div>
           </motion.div>
         )}
+
+        {/* Prescription Statistics */}
+        <PrescriptionStats doctorId={doctor?.id || ''} />
       </div>
     </div>
   );
