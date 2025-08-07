@@ -35,7 +35,8 @@ interface Appointment {
   tokenNumber: string;
   status: 'confirmed' | 'completed' | 'cancelled' | 'pending';
 }
-const BASE_URL="https://mock-apis-pgcn.onrender.com";
+
+const BASE_URL="https://mock-apis-pgcn.onrender.com"
 export default function AppointmentHistory() {
   const { patient } = useAuth();
   const router = useRouter();
@@ -56,18 +57,21 @@ export default function AppointmentHistory() {
   }, [patient]);
 
   const loadAppointments = async () => {
-  if (!patient || !patient.id) return; // Guard clause
-  try {
-    setLoading(true);
-    const response = await fetch(`${BASE_URL}/appointments?patientId=${patient.id}`);
-    const appointmentsData = await response.json();
-    setAppointments(appointmentsData);
-  } catch (error) {
-    console.error('Failed to load appointments:', error);
-  } finally {
-    setLoading(false);
+    if (!patient) {
+    console.error("Patient is null. Cannot load appointments.");
+    return;
   }
-};
+    try {
+      setLoading(true);
+      const response = await fetch(`${BASE_URL}/appointments?patientId=${patient.id}`);
+      const appointmentsData = await response.json();
+      setAppointments(appointmentsData);
+    } catch (error) {
+      console.error('Failed to load appointments:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredAppointments = appointments.filter(appointment => {
     const matchesFilter = filter === 'all' || appointment.status === filter;
@@ -120,7 +124,50 @@ export default function AppointmentHistory() {
     setShowCancelModal(true);
   };
 
+  const confirmCancel = async () => {
+    if (!selectedAppointment) return;
 
+    try {
+      const response = await fetch(`${BASE_URL}/appointments/${selectedAppointment.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'cancelled' }),
+      });
+
+      if (response.ok) {
+        if (!patient) {
+            console.error("Patient is null. Cannot create notification.");
+            return;
+        }
+        // Create notification
+        const notificationData = {
+          id: `notif-${Date.now()}`,
+          patientId: patient.id,
+          title: 'Appointment Cancelled',
+          message: `Your appointment with ${selectedAppointment.doctorName} on ${selectedAppointment.date} at ${selectedAppointment.time} has been cancelled.`,
+          type: 'appointment_cancelled',
+          read: false,
+          createdAt: new Date().toISOString()
+        };
+
+        await fetch('${BASE_URL}/notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(notificationData),
+        });
+
+        loadAppointments(); // Reload appointments
+        setShowCancelModal(false);
+        setSelectedAppointment(null);
+      }
+    } catch (error) {
+      console.error('Failed to cancel appointment:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -132,48 +179,6 @@ export default function AppointmentHistory() {
       </div>
     );
   }
-
-  // ...existing code...
-
-const confirmCancel = async () => {
-  if (!selectedAppointment || !patient || !patient.id) return; // Guard clause
-
-  try {
-    // Cancel the appointment
-    const response = await fetch(`${BASE_URL}/appointments/${selectedAppointment.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ status: 'cancelled' }),
-    });
-
-    if (response.ok) {
-      // Optionally, send a notification (if your API supports it)
-      // const notificationData = {
-      //   patientId: patient.id,
-      //   title: 'Appointment Cancelled',
-      //   message: `Your appointment with ${selectedAppointment.doctorName} on ${selectedAppointment.date} at ${selectedAppointment.time} has been cancelled.`,
-      //   type: 'appointment_cancelled',
-      //   read: false,
-      //   createdAt: new Date().toISOString()
-      // };
-      // await fetch(`${BASE_URL}/notifications`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(notificationData),
-      // });
-
-      // Refresh appointments and close modal
-      loadAppointments();
-      setShowCancelModal(false);
-      setSelectedAppointment(null);
-    }
-  } catch (error) {
-    console.error('Failed to cancel appointment:', error);
-  }
-};
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
