@@ -19,7 +19,7 @@ import {
   SortAsc,
   SortDesc
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Review {
   id: string;
   appointmentId: string;
@@ -66,7 +66,7 @@ export default function DoctorReviews() {
   const loadReviews = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/reviews');
+      const response = await fetch(`${BASE_URL}/reviews`);
       const allReviews = await response.json();
       
       // Filter reviews for this doctor
