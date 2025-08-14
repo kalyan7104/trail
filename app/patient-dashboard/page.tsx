@@ -24,7 +24,7 @@ import {
   Pill,
   Star
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 export default function PatientDashboard() {
   const [upcomingAppointments, setUpcomingAppointments] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -97,7 +97,7 @@ export default function PatientDashboard() {
 
   const loadDoctors = async () => {
     try {
-      const response = await fetch('http://localhost:3001/doctors');
+      const response = await fetch(`${BASE_URL}/doctors`);
       const doctorsData = await response.json();
       setDoctors(doctorsData);
     } catch (error) {
