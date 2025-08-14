@@ -36,7 +36,7 @@ interface Appointment {
   tokenNumber: string;
   status: 'confirmed' | 'completed' | 'cancelled' | 'pending';
 }
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 export default function AppointmentHistory() {
   const { patient } = useAuth();
   const router = useRouter();
@@ -63,7 +63,7 @@ export default function AppointmentHistory() {
   }
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/appointments?patientId=${patient.id}`);
+      const response = await fetch(`${BASE_URL}/appointments?patientId=${patient.id}`);
       const appointmentsData = await response.json();
       setAppointments(appointmentsData);
     } catch (error) {
@@ -128,7 +128,7 @@ export default function AppointmentHistory() {
     if (!selectedAppointment) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/appointments/${selectedAppointment.id}`, {
+      const response = await fetch(`${BASE_URL}/appointments/${selectedAppointment.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ export default function AppointmentHistory() {
           createdAt: new Date().toISOString()
         };
 
-        await fetch('http://localhost:3001/notifications', {
+        await fetch(`${BASE_URL}/notifications`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
