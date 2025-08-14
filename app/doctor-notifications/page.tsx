@@ -23,8 +23,6 @@ import {
   Star
 } from 'lucide-react';
 
-const BASE_URL="https://mock-apis-pgcn.onrender.com"
-
 interface Notification {
   id: string;
   doctorId: string;
@@ -58,7 +56,7 @@ export default function DoctorNotifications() {
       setLoading(true);
       
       // Fetch notifications for this doctor
-      const response = await fetch(`${BASE_URL}/notifications?doctorId=${doctor?.id}`);
+      const response = await fetch(`http://localhost:3001/notifications?doctorId=${doctor?.id}`);
       const data = await response.json();
       
       // Sort by creation date (newest first)
@@ -76,7 +74,7 @@ export default function DoctorNotifications() {
 
   const markAsRead = async (notificationId: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/notifications/${notificationId}`, {
+      const response = await fetch(`http://localhost:3001/notifications/${notificationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +94,7 @@ export default function DoctorNotifications() {
 
   const deleteNotification = async (notificationId: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/notifications/${notificationId}`, {
+      const response = await fetch(`http://localhost:3001/notifications/${notificationId}`, {
         method: 'DELETE',
       });
 

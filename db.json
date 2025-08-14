@@ -1,0 +1,838 @@
+{
+  "patient-login": [
+    {
+      "id": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "email": "Lokesh@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "email": "kalyankumarmunjuluri@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "bb92ca92-eb8c-49f4-a142-9bcf0f9728a6",
+      "email": "venkat@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "doctor-login": [
+    {
+      "id": "2439b496-8173-4066-92a3-52b8d79dd430",
+      "email": "Satish@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "D001",
+      "email": "sarah.johnson@hospital.com",
+      "password": "123456"
+    },
+    {
+      "id": "D002",
+      "email": "michael.chen@hospital.com",
+      "password": "123456"
+    },
+    {
+      "id": "D003",
+      "email": "emily.rodriguez@hospital.com",
+      "password": "123456"
+    },
+    {
+      "id": "D004",
+      "email": "james.wilson@hospital.com",
+      "password": "123456"
+    },
+    {
+      "id": "D005",
+      "email": "lisa.park@hospital.com",
+      "password": "123456"
+    }
+  ],
+  "patient-profile": [
+    {
+      "name": "lokesh",
+      "email": "lokesh@gmail.com",
+      "phone": "70980928",
+      "dateOfBirth": "2025-07-31",
+      "address": "andhra",
+      "emergencyContact": "8974029890",
+      "bloodType": "O+",
+      "allergies": "none",
+      "medications": "none",
+      "profilePicture": null,
+      "id": "ad96f831-f9c8-4c9b-8217-daca679b3c5a"
+    },
+    {
+      "name": "kalyan kumar",
+      "email": "kalyankumarmunjuluri@gmail.com",
+      "phone": "8639302460",
+      "dateOfBirth": "2025-07-17",
+      "address": "wetrysys",
+      "emergencyContact": "+1 234 567 8901",
+      "bloodType": "O+",
+      "allergies": "nothin",
+      "medications": "nothing",
+      "profilePicture": null,
+      "id": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d"
+    },
+    {
+      "name": "venkat",
+      "email": "venkat@gmail.com",
+      "password": "123456",
+      "phone": "9870987090",
+      "dateOfBirth": "2003-07-10",
+      "address": "podili",
+      "emergencyContact": "89798400898",
+      "bloodType": "O-",
+      "allergies": "yes",
+      "medications": "Aspirins",
+      "id": "bb92ca92-eb8c-49f4-a142-9bcf0f9728a6",
+      "profilePicture": ""
+    }
+  ],
+  "doctor-profile": [
+    {
+      "name": "satish",
+      "email": "Satish@gmail.com",
+      "phone": "874509802",
+      "specialty": "Cardiologist",
+      "hospital": "City General Hospital",
+      "experience": "5",
+      "license": "MD-2002",
+      "education": "MBBS",
+      "about": "Specialist in heart-related conditions with 5 years of experience",
+      "profilePicture": null,
+      "id": "2439b496-8173-4066-92a3-52b8d79dd430"
+    },
+    {
+      "id": "D001",
+      "name": "Dr. Sarah Johnson",
+      "email": "sarah.johnson@hospital.com",
+      "phone": "555-0101",
+      "specialty": "Cardiology",
+      "hospital": "City General Hospital",
+      "experience": "12",
+      "license": "MD-2008",
+      "education": "MBBS, MD Cardiology",
+      "about": "Dr. Sarah Johnson is a board-certified cardiologist with over 12 years of experience in treating cardiovascular diseases. She specializes in preventive cardiology and has helped thousands of patients maintain heart health.",
+      "profilePicture": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20female%20cardiologist%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=80&height=80&seq=doc1&orientation=squarish"
+    },
+    {
+      "id": "D002",
+      "name": "Dr. Michael Chen",
+      "email": "michael.chen@hospital.com",
+      "phone": "555-0102",
+      "specialty": "Orthopedics",
+      "hospital": "Metro Medical Center",
+      "experience": "8",
+      "license": "MD-2015",
+      "education": "MBBS, MD Orthopedics",
+      "about": "Dr. Michael Chen is a skilled orthopedic surgeon with 8 years of experience in joint replacement, sports medicine, and trauma surgery. He has successfully performed hundreds of surgeries.",
+      "profilePicture": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20Asian%20male%20orthopedic%20doctor%20with%20glasses%2C%20white%20coat%2C%20stethoscope%2C%20friendly%20expression%2C%20clinical%20setting&width=80&height=80&seq=doc2&orientation=squarish"
+    },
+    {
+      "id": "D003",
+      "name": "Dr. Emily Rodriguez",
+      "email": "emily.rodriguez@hospital.com",
+      "phone": "555-0103",
+      "specialty": "Dermatology",
+      "hospital": "Skin Care Clinic",
+      "experience": "10",
+      "license": "MD-2013",
+      "education": "MBBS, MD Dermatology",
+      "about": "Dr. Emily Rodriguez is a board-certified dermatologist with 10 years of experience in treating skin conditions, cosmetic procedures, and skin cancer detection.",
+      "profilePicture": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20Hispanic%20female%20dermatologist%20doctor%2C%20medical%20coat%2C%20warm%20smile%2C%20modern%20clinic%20background%2C%20medical%20photography%20style&width=80&height=80&seq=doc3&orientation=squarish"
+    },
+    {
+      "id": "D004",
+      "name": "Dr. James Wilson",
+      "email": "james.wilson@hospital.com",
+      "phone": "555-0104",
+      "specialty": "Pediatrics",
+      "hospital": "Children's Hospital",
+      "experience": "15",
+      "license": "MD-2008",
+      "education": "MBBS, MD Pediatrics",
+      "about": "Dr. James Wilson is a compassionate pediatrician with 15 years of experience caring for children from birth to adolescence. He specializes in child development and preventive care.",
+      "profilePicture": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20male%20pediatric%20doctor%2C%20white%20coat%2C%20stethoscope%2C%20children%20hospital%20background%2C%20medical%20photography%20style&width=80&height=80&seq=doc4&orientation=squarish"
+    },
+    {
+      "id": "D005",
+      "name": "Dr. Lisa Park",
+      "email": "lisa.park@hospital.com",
+      "phone": "555-0105",
+      "specialty": "Neurology",
+      "hospital": "Brain & Spine Center",
+      "experience": "11",
+      "license": "MD-2012",
+      "education": "MBBS, MD Neurology",
+      "about": "Dr. Lisa Park is a neurologist with 11 years of experience in treating neurological disorders, stroke management, and epilepsy. She is known for her patient-centered approach.",
+      "profilePicture": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20Asian%20female%20neurologist%20doctor%2C%20medical%20coat%2C%20professional%20expression%2C%20modern%20hospital%20background%2C%20medical%20photography%20style&width=80&height=80&seq=doc5&orientation=squarish"
+    },
+    {
+      "id": "doc-002",
+      "name": "Dr. Michael Chen",
+      "email": "michael.chen@hospital.com",
+      "phone": "555-0102",
+      "specialty": "Neurology",
+      "hospital": "Memorial Medical Center",
+      "experience": "12",
+      "license": "MD-2011",
+      "education": "MBBS, MD Neurology",
+      "about": "Neurologist with expertise in stroke treatment and neurological disorders",
+      "profilePicture": null
+    },
+    {
+      "id": "doc-003",
+      "name": "Dr. Emily Rodriguez",
+      "email": "emily.rodriguez@hospital.com",
+      "phone": "555-0103",
+      "specialty": "Pediatrics",
+      "hospital": "Children's Hospital",
+      "experience": "10",
+      "license": "MD-2013",
+      "education": "MBBS, MD Pediatrics",
+      "about": "Pediatrician dedicated to children's health and development",
+      "profilePicture": null
+    },
+    {
+      "id": "doc-004",
+      "name": "Dr. James Wilson",
+      "email": "james.wilson@hospital.com",
+      "phone": "555-0104",
+      "specialty": "Orthopedics",
+      "hospital": "Sports Medicine Center",
+      "experience": "18",
+      "license": "MD-2005",
+      "education": "MBBS, MS Orthopedics",
+      "about": "Orthopedic surgeon specializing in sports injuries and joint replacement",
+      "profilePicture": null
+    },
+    {
+      "id": "doc-005",
+      "name": "Dr. Lisa Thompson",
+      "email": "lisa.thompson@hospital.com",
+      "phone": "555-0105",
+      "specialty": "Dermatology",
+      "hospital": "Skin Care Clinic",
+      "experience": "8",
+      "license": "MD-2015",
+      "education": "MBBS, MD Dermatology",
+      "about": "Dermatologist with expertise in skin conditions and cosmetic procedures",
+      "profilePicture": null
+    }
+  ],
+  "doctors": [
+    {
+      "id": "D001",
+      "name": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "hospital": "City General Hospital",
+      "experience": "15 years",
+      "rating": 4.8,
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20female%20cardiologist%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=60&height=60&seq=doc1&orientation=squarish"
+    },
+    {
+      "id": "D002",
+      "name": "Dr. Michael Chen",
+      "specialty": "Neurology",
+      "hospital": "Memorial Medical Center",
+      "experience": "12 years",
+      "rating": 4.9,
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20male%20neurologist%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=60&height=60&seq=doc2&orientation=squarish"
+    },
+    {
+      "id": "D003",
+      "name": "Dr. Emily Rodriguez",
+      "specialty": "Pediatrics",
+      "hospital": "Children's Hospital",
+      "experience": "10 years",
+      "rating": 4.7,
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20female%20pediatrician%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=60&height=60&seq=doc3&orientation=squarish"
+    },
+    {
+      "id": "D004",
+      "name": "Dr. James Wilson",
+      "specialty": "Orthopedics",
+      "hospital": "Sports Medicine Center",
+      "experience": "18 years",
+      "rating": 4.6,
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20male%20orthopedic%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=60&height=60&seq=doc4&orientation=squarish"
+    },
+    {
+      "id": "D005",
+      "name": "Dr. Lisa Thompson",
+      "specialty": "Dermatology",
+      "hospital": "Skin Care Clinic",
+      "experience": "8 years",
+      "rating": 4.5,
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20female%20dermatologist%20doctor%20with%20stethoscope%2C%20medical%20coat%2C%20confident%20smile%2C%20hospital%20background%2C%20medical%20photography%20style&width=60&height=60&seq=doc5&orientation=squarish"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "1",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-04",
+      "time": "10:30 AM",
+      "appointmentType": "Consultation",
+      "notes": "Follow-up on chest pain",
+      "tokenNumber": "T1234",
+      "status": "rescheduled",
+      "originalDate": "2025-08-06",
+      "originalTime": "10:30 AM",
+      "rescheduledAt": "2025-08-05T06:36:53.526Z"
+    },
+    {
+      "id": "2",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D002",
+      "doctorName": "Dr. Michael Chen",
+      "specialty": "Neurology",
+      "date": "2025-08-06",
+      "time": "2:00 PM",
+      "appointmentType": "Check-up",
+      "notes": "Headache evaluation",
+      "tokenNumber": "T1235",
+      "status": "cancelled"
+    },
+    {
+      "id": "3",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D003",
+      "doctorName": "Dr. Emily Rodriguez",
+      "specialty": "Pediatrics",
+      "date": "2025-08-07",
+      "time": "11:00 AM",
+      "appointmentType": "Follow-up",
+      "notes": "Regular check-up",
+      "tokenNumber": "T1236",
+      "status": "pending"
+    },
+    {
+      "id": "4",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D004",
+      "doctorName": "Dr. James Wilson",
+      "specialty": "Orthopedics",
+      "date": "2025-08-08",
+      "time": "3:30 PM",
+      "appointmentType": "Consultation",
+      "notes": "Knee pain assessment",
+      "tokenNumber": "T1237",
+      "status": "completed"
+    },
+    {
+      "id": "5",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D005",
+      "doctorName": "Dr. Lisa Thompson",
+      "specialty": "Dermatology",
+      "date": "2025-08-09",
+      "time": "1:00 PM",
+      "appointmentType": "Treatment",
+      "notes": "Skin condition treatment",
+      "tokenNumber": "T1238",
+      "status": "cancelled"
+    },
+    {
+      "id": "119a",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-02",
+      "time": "9:00 AM",
+      "appointmentType": "consultation",
+      "notes": "",
+      "tokenNumber": "T7750",
+      "status": "cancelled"
+    },
+    {
+      "id": "cb43",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-17",
+      "time": "02:00 PM",
+      "appointmentType": "Consultation",
+      "notes": "high Fever",
+      "tokenNumber": "T1754245346681",
+      "status": "cancelled"
+    },
+    {
+      "id": "apt-001",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D002",
+      "doctorName": "Dr. Michael Chen",
+      "specialty": "Orthopedics",
+      "date": "2025-01-20",
+      "time": "10:00 AM",
+      "appointmentType": "Consultation",
+      "notes": "Knee pain and difficulty walking",
+      "tokenNumber": "T1754245346682",
+      "status": "cancelled"
+    },
+    {
+      "id": "apt-002",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D003",
+      "doctorName": "Dr. Emily Rodriguez",
+      "specialty": "Dermatology",
+      "date": "2025-01-22",
+      "time": "03:30 PM",
+      "appointmentType": "Check-up",
+      "notes": "Skin rash and itching",
+      "tokenNumber": "T1754245346683",
+      "status": "pending"
+    },
+    {
+      "id": "apt-003",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D004",
+      "doctorName": "Dr. James Wilson",
+      "specialty": "Pediatrics",
+      "date": "2025-01-25",
+      "time": "11:00 AM",
+      "appointmentType": "Follow-up",
+      "notes": "Regular check-up for child",
+      "tokenNumber": "T1754245346684",
+      "status": "completed"
+    },
+    {
+      "id": "apt-004",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D005",
+      "doctorName": "Dr. Lisa Park",
+      "specialty": "Neurology",
+      "date": "2025-01-28",
+      "time": "02:00 PM",
+      "appointmentType": "Consultation",
+      "notes": "Headaches and dizziness",
+      "tokenNumber": "T1754245346685",
+      "status": "completed"
+    },
+    {
+      "id": "13fb",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-17",
+      "time": "09:00 AM",
+      "appointmentType": "Consultation",
+      "notes": "unknown",
+      "tokenNumber": "T1754247103543",
+      "status": "completed"
+    },
+    {
+      "id": "9224",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-03",
+      "time": "01:30 AM",
+      "appointmentType": "Consultation",
+      "notes": "unko",
+      "tokenNumber": "T1754251273652",
+      "status": "rescheduled",
+      "originalDate": "2025-08-06",
+      "originalTime": "08:30 AM",
+      "rescheduledAt": "2025-08-05T06:36:02.627Z"
+    },
+    {
+      "id": "0457",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-06",
+      "time": "06:30 PM",
+      "appointmentType": "Consultation",
+      "notes": "",
+      "tokenNumber": "T1754283980952",
+      "status": "rescheduled",
+      "originalDate": "2025-08-04",
+      "originalTime": "06:30 PM",
+      "rescheduledAt": "2025-08-05T06:36:40.898Z"
+    },
+    {
+      "id": "6067",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-13",
+      "time": "02:00 PM",
+      "appointmentType": "Consultation",
+      "notes": "",
+      "tokenNumber": "T1754306965938",
+      "status": "rescheduled",
+      "originalDate": "2025-08-13",
+      "originalTime": "02:00 PM",
+      "rescheduledAt": "2025-08-12T05:43:29.452Z"
+    },
+    {
+      "id": "75ff",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-07",
+      "time": "01:30 PM",
+      "appointmentType": "Consultation",
+      "notes": "",
+      "tokenNumber": "T1754307074034",
+      "status": "rescheduled",
+      "originalDate": "2025-08-07",
+      "originalTime": "01:30 PM",
+      "rescheduledAt": "2025-08-05T06:35:54.492Z"
+    },
+    {
+      "id": "4f1a",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-14",
+      "time": "11:30 AM",
+      "appointmentType": "Consultation",
+      "notes": "",
+      "tokenNumber": "T1754370704997",
+      "status": "completed"
+    },
+    {
+      "id": "2141",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-09",
+      "time": "10:00 AM",
+      "appointmentType": "Consultation",
+      "notes": "",
+      "tokenNumber": "T1754370766429",
+      "status": "rescheduled",
+      "originalDate": "2025-08-08",
+      "originalTime": "10:00 AM",
+      "rescheduledAt": "2025-08-05T06:34:21.872Z"
+    },
+    {
+      "id": "10a7",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "specialty": "Cardiology",
+      "date": "2025-08-03",
+      "time": "01:00 PM",
+      "appointmentType": "Consultation",
+      "notes": "",
+      "tokenNumber": "T1754371007010",
+      "status": "rescheduled",
+      "originalDate": "2025-08-04",
+      "originalTime": "01:30 PM",
+      "rescheduledAt": "2025-08-05T06:36:18.603Z"
+    },
+    {
+      "patientId": "bb92ca92-eb8c-49f4-a142-9bcf0f9728a6",
+      "doctorId": "D005",
+      "doctorName": "Dr. Lisa Park",
+      "specialty": "Neurology",
+      "date": "2025-08-14",
+      "time": "09:30 AM",
+      "appointmentType": "Consultation",
+      "notes": "nerouns damage",
+      "tokenNumber": "T1755050299027",
+      "status": "completed",
+      "id": "6F7y27N"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1754306965968",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "title": "Appointment Confirmed",
+      "message": "Your appointment with Dr. Sarah Johnson on 2025-08-13 at 02:00 PM has been confirmed.",
+      "type": "appointment_confirmed",
+      "read": false,
+      "createdAt": "2025-08-04T11:29:25.968Z"
+    },
+    {
+      "id": "notif-doc-1754306965985",
+      "doctorId": "D001",
+      "title": "New Appointment Booked",
+      "message": "New appointment booked by lokesh on 2025-08-13 at 02:00 PM.",
+      "type": "new_appointment",
+      "read": false,
+      "createdAt": "2025-08-04T11:29:25.985Z"
+    },
+    {
+      "id": "notif-1754307074056",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "title": "Appointment Confirmed",
+      "message": "Your appointment with Dr. Sarah Johnson on 2025-08-07 at 04:30 PM has been confirmed.",
+      "type": "appointment_confirmed",
+      "read": false,
+      "createdAt": "2025-08-04T11:31:14.056Z"
+    },
+    {
+      "id": "notif-doc-1754307074088",
+      "doctorId": "D001",
+      "title": "New Appointment Booked",
+      "message": "New appointment booked by lokesh on 2025-08-07 at 04:30 PM.",
+      "type": "new_appointment",
+      "read": false,
+      "createdAt": "2025-08-04T11:31:14.088Z"
+    },
+    {
+      "id": "notif-doc-1754370705146",
+      "doctorId": "D001",
+      "title": "New Appointment Booked",
+      "message": "New appointment booked by kalyan kumar on 2025-08-14 at 11:30 AM.",
+      "type": "new_appointment",
+      "read": false,
+      "createdAt": "2025-08-05T05:11:45.146Z"
+    },
+    {
+      "id": "notif-doc-1754370766473",
+      "doctorId": "D001",
+      "title": "New Appointment Booked",
+      "message": "New appointment booked by kalyan kumar on 2025-08-07 at 11:00 AM.",
+      "type": "new_appointment",
+      "read": false,
+      "createdAt": "2025-08-05T05:12:46.473Z"
+    },
+    {
+      "id": "notif-doc-1754371007076",
+      "doctorId": "D001",
+      "title": "New Appointment Booked",
+      "message": "New appointment booked by kalyan kumar on 2025-08-07 at 09:00 AM.",
+      "type": "new_appointment",
+      "read": false,
+      "createdAt": "2025-08-05T05:16:47.076Z"
+    },
+    {
+      "id": "notif-1755050299051",
+      "patientId": "bb92ca92-eb8c-49f4-a142-9bcf0f9728a6",
+      "title": "Appointment Confirmed",
+      "message": "Your appointment with Dr. Lisa Park on 2025-08-14 at 09:30 AM has been confirmed.",
+      "type": "appointment_confirmed",
+      "read": false,
+      "createdAt": "2025-08-13T01:58:19.051Z"
+    },
+    {
+      "id": "notif-doc-1755050299068",
+      "doctorId": "D005",
+      "title": "New Appointment Booked",
+      "message": "New appointment booked by venkat on 2025-08-14 at 09:30 AM.",
+      "type": "new_appointment",
+      "read": false,
+      "createdAt": "2025-08-13T01:58:19.068Z"
+    }
+  ],
+  "doctor-appointments": [
+    {
+      "id": "A001",
+      "patientName": "John Smith",
+      "patientId": "P001",
+      "time": "9:00 AM",
+      "duration": "30 min",
+      "type": "Consultation",
+      "status": "confirmed",
+      "notes": "Routine cardiac check-up",
+      "phone": "+1 (555) 123-4567",
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20headshot%20of%20middle-aged%20man%20with%20friendly%20smile%2C%20casual%20attire%2C%20clean%20background%2C%20portrait%20photography%20style&width=50&height=50&seq=patient1&orientation=squarish"
+    },
+    {
+      "id": "A002",
+      "patientName": "Emily Johnson",
+      "patientId": "P002",
+      "time": "10:30 AM",
+      "duration": "15 min",
+      "type": "Follow-up",
+      "status": "waiting",
+      "notes": "Blood pressure monitoring",
+      "phone": "+1 (555) 234-5678",
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20headshot%20of%20young%20woman%20with%20brown%20hair%2C%20warm%20smile%2C%20business%20casual%2C%20studio%20lighting%2C%20clean%20background&width=50&height=50&seq=patient2&orientation=squarish"
+    },
+    {
+      "id": "A003",
+      "patientName": "Michael Brown",
+      "patientId": "P003",
+      "time": "2:00 PM",
+      "duration": "45 min",
+      "type": "Consultation",
+      "status": "confirmed",
+      "notes": "Chest pain evaluation",
+      "phone": "+1 (555) 345-6789",
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20headshot%20of%20man%20with%20beard%2C%20confident%20expression%2C%20casual%20shirt%2C%20studio%20lighting%2C%20clean%20background&width=50&height=50&seq=patient3&orientation=squarish"
+    },
+    {
+      "id": "A004",
+      "patientName": "Sarah Davis",
+      "patientId": "P004",
+      "time": "3:30 PM",
+      "duration": "30 min",
+      "type": "Check-up",
+      "status": "completed",
+      "notes": "Annual physical examination",
+      "phone": "+1 (555) 456-7890'",
+      "avatar": "https://readdy.ai/api/search-image?query=Professional%20headshot%20of%20middle-aged%20woman%20with%20short%20hair%2C%20professional%20attire%2C%20warm%20expression%2C%20clean%20background&width=50&height=50&seq=patient4&orientation=squarish"
+    }
+  ],
+  "prescriptions": [
+    {
+      "id": "presc-001",
+      "appointmentId": "4",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "patientName": "kalyan kumar",
+      "doctorId": "D004",
+      "doctorName": "Dr. James Wilson",
+      "medicines": [
+        {
+          "id": "med-001",
+          "name": "Ibuprofen",
+          "dosage": "400mg",
+          "frequency": "3 times daily",
+          "duration": "7 days",
+          "instructions": "Take with food to avoid stomach upset"
+        },
+        {
+          "id": "med-002",
+          "name": "Acetaminophen",
+          "dosage": "500mg",
+          "frequency": "As needed for pain",
+          "duration": "5 days",
+          "instructions": "Do not exceed 4 tablets per day"
+        }
+      ],
+      "notes": "For knee pain relief. Avoid strenuous activities for 2 weeks.",
+      "prescribedDate": "2025-08-08",
+      "nextFollowUp": "2025-08-22",
+      "status": "active"
+    },
+    {
+      "appointmentId": "13fb",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "patientName": "lokesh",
+      "medicines": [
+        {
+          "id": "med-003",
+          "name": "Aspirin",
+          "dosage": "81mg",
+          "frequency": "Once daily",
+          "duration": "30 days",
+          "instructions": "Take in the morning with water"
+        }
+      ],
+      "notes": "For chest pain management. Monitor symptoms and report any worsening.",
+      "nextFollowUp": "2025-08-18",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "prescribedDate": "2025-08-07",
+      "status": "active",
+      "id": "presc-002"
+    },
+    {
+      "id": "presc-003",
+      "appointmentId": "2",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "patientName": "kalyan kumar",
+      "doctorId": "D002",
+      "doctorName": "Dr. Michael Chen",
+      "medicines": [
+        {
+          "id": "med-004",
+          "name": "Sumatriptan",
+          "dosage": "50mg",
+          "frequency": "As needed for migraine",
+          "duration": "10 days",
+          "instructions": "Take at the first sign of migraine"
+        }
+      ],
+      "notes": "For headache relief. Keep a headache diary to track triggers.",
+      "prescribedDate": "2025-08-06",
+      "nextFollowUp": "2025-08-20",
+      "status": "active"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-001",
+      "appointmentId": "4",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "patientName": "kalyan kumar",
+      "doctorId": "D004",
+      "doctorName": "Dr. James Wilson",
+      "rating": 5,
+      "review": "Excellent consultation! Dr. Wilson was very thorough in examining my knee pain and provided clear treatment options. The staff was also very professional.",
+      "createdAt": "2025-08-08T15:30:00.000Z",
+      "updatedAt": "2025-08-08T15:30:00.000Z"
+    },
+    {
+      "id": "rev-002",
+      "appointmentId": "2",
+      "patientId": "70b268eb-6dde-4f1f-a7ba-949d0489fb3d",
+      "patientName": "kalyan kumar",
+      "doctorId": "D002",
+      "doctorName": "Dr. Michael Chen",
+      "rating": 4,
+      "review": "Dr. Chen was knowledgeable and helped me understand my headache issues better. The wait time was a bit long, but the consultation was worth it.",
+      "createdAt": "2025-08-06T14:00:00.000Z",
+      "updatedAt": "2025-08-06T14:00:00.000Z"
+    },
+    {
+      "id": "rev-003",
+      "appointmentId": "1",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "patientName": "lokesh",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "rating": 5,
+      "review": "Dr. Johnson is amazing! She took the time to listen to all my concerns about chest pain and provided comprehensive care. Highly recommended!",
+      "createdAt": "2025-08-04T10:30:00.000Z",
+      "updatedAt": "2025-08-04T10:30:00.000Z"
+    },
+    {
+      "id": "rev-004",
+      "appointmentId": "3",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "patientName": "lokesh",
+      "doctorId": "D003",
+      "doctorName": "Dr. Emily Rodriguez",
+      "rating": 4,
+      "review": "Dr. Rodriguez was very patient and caring. She explained everything clearly and made sure I understood the treatment plan.",
+      "createdAt": "2025-08-07T11:00:00.000Z",
+      "updatedAt": "2025-08-07T11:00:00.000Z"
+    },
+    {
+      "id": "rev-005",
+      "appointmentId": "5",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "patientName": "lokesh",
+      "doctorId": "D005",
+      "doctorName": "Dr. Lisa Thompson",
+      "rating": 3,
+      "review": "The consultation was okay, but I felt rushed. Dr. Thompson seemed knowledgeable but didn't spend enough time addressing my concerns.",
+      "createdAt": "2025-08-09T13:00:00.000Z",
+      "updatedAt": "2025-08-09T13:00:00.000Z"
+    },
+    {
+      "appointmentId": "13fb",
+      "patientId": "ad96f831-f9c8-4c9b-8217-daca679b3c5a",
+      "patientName": "lokesh",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Johnson",
+      "rating": 4,
+      "review": "excellent",
+      "createdAt": "2025-08-13T06:56:31.620Z",
+      "updatedAt": "2025-08-13T06:56:31.620Z",
+      "id": "guz91Ak"
+    }
+  ]
+}

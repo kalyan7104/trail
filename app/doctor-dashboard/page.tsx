@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { appointmentAPI } from '@/lib/api';
 import { useDoctorAuth } from '@/contexts/DoctorAuthContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import PrescriptionStats from '@/components/PrescriptionStats';
 import { 
   Calendar, 
   Clock, 
   User, 
-  Bell, 
+  Bell,
   LogOut, 
   Plus, 
   Stethoscope, 
@@ -24,10 +24,9 @@ import {
   AlertCircle,
   Clock as ClockIcon,
   TrendingUp,
-  Activity
+  Activity,
+  Star
 } from 'lucide-react';
-
-const BASE_URL="https://mock-apis-pgcn.onrender.com"
 
 export default function DoctorDashboard() {
   const { doctor, logout } = useDoctorAuth();
@@ -36,6 +35,7 @@ export default function DoctorDashboard() {
   const [patients, setPatients] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -46,6 +46,21 @@ export default function DoctorDashboard() {
 
     loadDashboardData();
   }, [doctor]);
+
+  // Close notifications dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (showNotifications && !target.closest('.notifications-dropdown')) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showNotifications]);
 
   const loadDashboardData = async () => {
     try {
@@ -67,14 +82,14 @@ export default function DoctorDashboard() {
       if (!doctor) return;
       
       // Fetch all appointments
-      const response = await fetch(`${BASE_URL}/appointments`);
+      const response = await fetch('http://localhost:3001/appointments');
       const allAppointments = await response.json();
       
       // Filter appointments for this doctor
       const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor.id);
       
       // Fetch patient profiles to get patient names
-      const patientsResponse = await fetch(`${BASE_URL}/patient-profile`);
+      const patientsResponse = await fetch('http://localhost:3001/patient-profile');
       const patientsData = await patientsResponse.json();
       
       // Add patient information to appointments
@@ -109,7 +124,7 @@ export default function DoctorDashboard() {
 
   const loadPatients = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/patient-profile`);
+      const response = await fetch('http://localhost:3001/patient-profile');
       const patientsData = await response.json();
       setPatients(patientsData.slice(0, 5)); // Show first 5 patients
     } catch (error) {
@@ -120,7 +135,7 @@ export default function DoctorDashboard() {
   const loadNotifications = async () => {
     try {
       if (!doctor) return;
-      const response = await fetch(`${BASE_URL}/notifications`);
+      const response = await fetch('http://localhost:3001/notifications');
       const allNotifications = await response.json();
       
       // Filter notifications for this doctor
@@ -128,11 +143,13 @@ export default function DoctorDashboard() {
         notif.doctorId === doctor.id && !notif.read
       );
       
-      setNotifications(doctorNotifications.slice(0, 5)); // Show first 5 notifications
+      setNotifications(doctorNotifications.slice(0, 10)); // Show first 10 notifications
     } catch (error) {
       console.error('Failed to load notifications:', error);
     }
   };
+
+
 
   const handleLogout = () => {
     logout();
@@ -184,9 +201,9 @@ export default function DoctorDashboard() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Link
-                href="/notifications"
-                className="relative p-3 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors group"
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="notifications-dropdown relative p-3 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors group"
               >
                 <Bell className="h-5 w-5 text-blue-600 group-hover:text-blue-700" />
                 {notifications.length > 0 && (
@@ -194,7 +211,7 @@ export default function DoctorDashboard() {
                     {notifications.length}
                   </span>
                 )}
-              </Link>
+              </button>
               <button
                 onClick={handleLogout}
                 className="p-3 bg-red-50 hover:bg-red-100 rounded-xl transition-colors group"
@@ -307,11 +324,11 @@ export default function DoctorDashboard() {
           </Link>
 
           <Link
-            href="/notifications"
-            className="bg-gradient-to-r from-orange-600 to-red-600 text-white p-6 rounded-2xl flex flex-col items-center justify-center space-y-3 hover:shadow-xl transition-all duration-300 hover:scale-105"
+            href="/doctor-patient-list"
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6 rounded-2xl flex flex-col items-center justify-center space-y-3 hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
-            <Bell className="h-8 w-8" />
-            <span className="font-semibold text-center">Notifications</span>
+            <Users className="h-8 w-8" />
+            <span className="font-semibold text-center">Patient List</span>
           </Link>
 
           <Link
@@ -320,6 +337,14 @@ export default function DoctorDashboard() {
           >
             <FileText className="h-8 w-8" />
             <span className="font-semibold text-center">Prescriptions</span>
+          </Link>
+
+          <Link
+            href="/doctor-reviews"
+            className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white p-6 rounded-2xl flex flex-col items-center justify-center space-y-3 hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <Star className="h-8 w-8" />
+            <span className="font-semibold text-center">Patient Reviews</span>
           </Link>
         </motion.div>
 
@@ -393,7 +418,7 @@ export default function DoctorDashboard() {
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">Recent Patients</h2>
-              <Link href="/patients" className="text-green-600 hover:text-green-700 text-sm font-medium">
+              <Link href="/doctor-patient-list" className="text-green-600 hover:text-green-700 text-sm font-medium">
                 View All
               </Link>
             </div>
@@ -421,7 +446,7 @@ export default function DoctorDashboard() {
                         <p className="text-xs text-gray-500">{patient.bloodType} • {patient.age || 'N/A'} years</p>
                       </div>
                       <Link 
-                        href={`/patient-details/${patient.id}`}
+                        href={`/doctor-patient-list?patientId=${patient.id}`}
                         className="p-2 bg-green-100 hover:bg-green-200 rounded-lg transition-colors"
                       >
                         <ArrowRight className="h-4 w-4 text-green-600" />
@@ -551,6 +576,64 @@ export default function DoctorDashboard() {
         {/* Prescription Statistics */}
         <PrescriptionStats doctorId={doctor?.id || ''} />
       </div>
+
+      {/* Notifications Dropdown */}
+      <AnimatePresence>
+        {showNotifications && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            className="notifications-dropdown absolute top-20 right-6 w-80 bg-white rounded-2xl shadow-xl border border-gray-200 z-50 max-h-96 overflow-hidden"
+          >
+            <div className="p-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
+              <p className="text-sm text-gray-600">{notifications.length} unread</p>
+            </div>
+            
+            <div className="max-h-80 overflow-y-auto">
+              {notifications.length === 0 ? (
+                <div className="p-6 text-center">
+                  <Bell className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-500">No new notifications</p>
+                </div>
+              ) : (
+                <div className="p-2">
+                  {notifications.map((notification: any) => (
+                    <div key={notification.id} className="p-3 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">
+                            {notification.title || 'New Notification'}
+                          </p>
+                          <p className="text-xs text-gray-600 mt-1">
+                            {notification.message || notification.description || 'You have a new notification'}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-2">
+                            {new Date(notification.createdAt || notification.date).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            {notifications.length > 0 && (
+              <div className="p-3 border-t border-gray-200">
+                <Link
+                  href="/notifications"
+                  className="w-full text-center text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  View All Notifications
+                </Link>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

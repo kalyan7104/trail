@@ -10,7 +10,7 @@
     "json-server": "json-server --watch db.json --port 3001"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^3.3.2",
     "@types/react-dnd": "^2.0.36",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "axios": "^1.6.2",
@@ -24,9 +24,9 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
-    "react-hook-form": "^7.62.0",
+    "react-hook-form": "^7.48.2",
     "uuid": "^11.1.0",
-    "yup": "^1.7.0"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",

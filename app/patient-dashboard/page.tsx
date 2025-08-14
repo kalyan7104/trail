@@ -20,9 +20,10 @@ import {
   Users,
   CheckCircle,
   AlertCircle,
-  Clock as ClockIcon
+  Clock as ClockIcon,
+  Pill,
+  Star
 } from 'lucide-react';
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
 
 export default function PatientDashboard() {
   const [upcomingAppointments, setUpcomingAppointments] = useState<any[]>([]);
@@ -60,20 +61,19 @@ export default function PatientDashboard() {
   }, [searchParams]);
 
   const loadDashboardData = async () => {
-  if (!patient || !patient.id) return; // Guard clause
-  try {
-    setLoading(true);
-    await Promise.all([
-      loadAppointments(patient.id),
-      loadNotifications(patient.id),
-      loadDoctors()
-    ]);
-  } catch (error) {
-    console.error('Failed to load dashboard data:', error);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      await Promise.all([
+        loadAppointments(patient.id),
+        loadNotifications(patient.id),
+        loadDoctors()
+      ]);
+    } catch (error) {
+      console.error('Failed to load dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const loadAppointments = async (patientId: string) => {
     try {
@@ -96,7 +96,7 @@ export default function PatientDashboard() {
 
   const loadDoctors = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/doctors`);
+      const response = await fetch('http://localhost:3001/doctors');
       const doctorsData = await response.json();
       setDoctors(doctorsData);
     } catch (error) {
@@ -227,7 +227,7 @@ export default function PatientDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          className="grid grid-cols-2 md:grid-cols-5 gap-4"
         >
           <Link
             href="/doctors"
@@ -259,6 +259,22 @@ export default function PatientDashboard() {
           >
             <Bell className="h-8 w-8" />
             <span className="font-semibold text-center">Notifications</span>
+          </Link>
+
+          <Link
+            href="/patient-prescriptions"
+            className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-6 rounded-2xl flex flex-col items-center justify-center space-y-3 hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <Pill className="h-8 w-8" />
+            <span className="font-semibold text-center">My Prescriptions</span>
+          </Link>
+
+          <Link
+            href="/patient-reviews"
+            className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white p-6 rounded-2xl flex flex-col items-center justify-center space-y-3 hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <Star className="h-8 w-8" />
+            <span className="font-semibold text-center">My Reviews</span>
           </Link>
         </motion.div>
 

@@ -9,7 +9,7 @@ import { patientLoginSchema } from '@/lib/validationSchemas';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { LogIn, User, Lock, Eye, EyeOff, ArrowLeft, Heart, Shield, Clock } from 'lucide-react';
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
+
 interface PatientLoginForm {
   email: string;
   password: string;
@@ -39,7 +39,7 @@ export default function PatientLogin() {
       
       // Step 1: Validate login credentials against patient-login
       const loginRes = await fetch(
-        `${BASE_URL}/patient-login?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`
+        `http://localhost:3001/patient-login?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`
       );
       
       if (!loginRes.ok) {
@@ -56,7 +56,7 @@ export default function PatientLogin() {
 
       // Step 2: Fetch full profile using patient-profile with case-insensitive matching
       const profileRes = await fetch(
-        `${BASE_URL}/patient-profile`
+        `http://localhost:3001/patient-profile`
       );
       
       if (!profileRes.ok) {

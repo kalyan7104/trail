@@ -24,7 +24,6 @@ import {
   Heart,
   Stethoscope
 } from 'lucide-react';
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
 
 interface Notification {
   id: string;
@@ -59,7 +58,7 @@ export default function PatientNotifications() {
       setLoading(true);
       
       // Fetch notifications for this patient
-      const response = await fetch(`${BASE_URL}/notifications?patientId=${patient?.id}`);
+      const response = await fetch(`http://localhost:3001/notifications?patientId=${patient?.id}`);
       const data = await response.json();
       
       // Sort by creation date (newest first)
@@ -77,7 +76,7 @@ export default function PatientNotifications() {
 
   const markAsRead = async (notificationId: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/notifications/${notificationId}`, {
+      const response = await fetch(`http://localhost:3001/notifications/${notificationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +96,7 @@ export default function PatientNotifications() {
 
   const deleteNotification = async (notificationId: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/notifications/${notificationId}`, {
+      const response = await fetch(`http://localhost:3001/notifications/${notificationId}`, {
         method: 'DELETE',
       });
 

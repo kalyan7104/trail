@@ -10,7 +10,7 @@ import { doctorRegistrationSchema } from '@/lib/validationSchemas';
 import { doctorAPI } from '@/lib/api';
 import { v4 as uuidv4 } from 'uuid'; // Ensure this is imported at the top
 
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
+
 interface DoctorRegistrationForm {
   name: string;
   email: string;
@@ -63,7 +63,7 @@ const onSubmit = async (data: DoctorRegistrationForm) => {
     const newId = uuidv4(); // shared ID
 
     // Step 1: POST to doctor-profile
-    await fetch(`${BASE_URL}/doctor-profile`, {
+    await fetch('http://localhost:3001/doctor-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -74,7 +74,7 @@ const onSubmit = async (data: DoctorRegistrationForm) => {
     });
 
     // Step 2: POST to doctor-login
-    await fetch(`${BASE_URL}/doctor-login`, {
+    await fetch('http://localhost:3001/doctor-login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

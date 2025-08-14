@@ -28,8 +28,6 @@ import Link from 'next/link';
 import { data } from 'framer-motion/client';
 import DoctorsPage from '../doctors/page';
 
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
-
 interface Appointment {
   id: string | number;
   patientId: string;
@@ -97,19 +95,19 @@ export default function DoctorAppointments() {
     }
   };
 
-const loadAppointments = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/appointments`);
-    const appointmentsData = await response.json();
-    setAppointments(appointmentsData);
-  } catch (error) {
-    console.error('Failed to load appointments:', error);
-  }
-};
+  const loadAppointments = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/appointments`);
+      const appointmentsData = await response.json();
+      setAppointments(appointmentsData);
+    } catch (error) {
+      console.error('Failed to load appointments:', error);
+    }
+  };
 
   const loadPatients = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/patient-profile`);
+      const response = await fetch('http://localhost:3001/patient-profile');
       const patientsData = await response.json();
       setPatients(patientsData);
     } catch (error) {
@@ -168,7 +166,7 @@ const loadAppointments = async () => {
 
   const handleStatusUpdate = async (appointmentId: string | number, newStatus: string) => {
     try {
-      const response = await fetch(`${BASE_URL}/appointments/${appointmentId}`, {
+      const response = await fetch(`http://localhost:3001/appointments/${appointmentId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +191,7 @@ const loadAppointments = async () => {
     if (!selectedAppointment || !rescheduleDate || !rescheduleTime) return;
     
     try {
-      const response = await fetch(`${BASE_URL}/appointments/${selectedAppointment.id}`, {
+      const response = await fetch(`http://localhost:3001/appointments/${selectedAppointment.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -535,6 +533,16 @@ const loadAppointments = async () => {
                       <p><strong>Token:</strong> {selectedAppointment.tokenNumber}</p>
                       <p><strong>Status:</strong> {selectedAppointment.status}</p>
                     </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-200">
+                    <Link
+                      href={`/patient-medical-history/${selectedAppointment.patientId}`}
+                      className="w-full px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Eye className="h-4 w-4" />
+                      <span>View Medical History</span>
+                    </Link>
                   </div>
                 </div>
               ) : (

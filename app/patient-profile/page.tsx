@@ -23,7 +23,6 @@ import {
   Activity
 } from 'lucide-react';
 import Link from 'next/link';
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
 
 export default function PatientProfile() {
   const { patient, logout } = useAuth();
@@ -54,7 +53,7 @@ export default function PatientProfile() {
 
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/patient-profile/${patient.id}`);
+        const res = await fetch(`http://localhost:3001/patient-profile/${patient.id}`);
         if (!res.ok) throw new Error('Patient profile not found');
 
         const data = await res.json();
@@ -103,7 +102,7 @@ export default function PatientProfile() {
       };
 
       // Update patient-profile
-      const res = await fetch(`${BASE_URL}/patient-profile/${patientData.id}`, {
+      const res = await fetch(`http://localhost:3001/patient-profile/${patientData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedPayload)
@@ -113,10 +112,10 @@ export default function PatientProfile() {
 
       // If email changed, sync in patient-login
       if (formData.email !== patientData.email) {
-        const loginRes = await fetch(`${BASE_URL}/patient-login?email=${patientData.email}`);
+        const loginRes = await fetch(`http://localhost:3001/patient-login?email=${patientData.email}`);
         const loginData = await loginRes.json();
         if (loginData.length > 0) {
-          await fetch(`${BASE_URL}/patient-login/${loginData[0].id}`, {
+          await fetch(`http://localhost:3001/patient-login/${loginData[0].id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: formData.email })

@@ -25,7 +25,11 @@ import {
   X,
   RefreshCw,
   Printer,
-  Download
+  Download,
+  MapPin,
+  Phone,
+  Mail,
+  Building
 } from 'lucide-react';
 
 interface Medicine {
@@ -42,8 +46,13 @@ interface Prescription {
   appointmentId: string;
   patientId: string;
   patientName: string;
+  patientAge?: string;
+  patientGender?: string;
+  patientDiagnosis?: string;
   doctorId: string;
   doctorName: string;
+  doctorSpecialization?: string;
+  doctorLicense?: string;
   medicines: Medicine[];
   notes: string;
   prescribedDate: string;
@@ -85,6 +94,9 @@ export default function DoctorPrescriptions() {
     appointmentId: '',
     patientId: '',
     patientName: '',
+    patientAge: '',
+    patientGender: '',
+    patientDiagnosis: '',
     medicines: [{ id: '', name: '', dosage: '', frequency: '', duration: '', instructions: '' }],
     notes: '',
     nextFollowUp: ''
@@ -99,8 +111,8 @@ export default function DoctorPrescriptions() {
     }
   }, [doctor]);
 
+  // Pre-fill form if appointmentId is in URL
   useEffect(() => {
-    // Check if we have URL parameters for pre-filling the form
     const appointmentId = searchParams.get('appointmentId');
     const patientId = searchParams.get('patientId');
     const patientName = searchParams.get('patientName');
@@ -120,31 +132,17 @@ export default function DoctorPrescriptions() {
     try {
       setLoading(true);
       
+      // Fetch appointments for this doctor
+      const appointmentsResponse = await fetch('http://localhost:3001/appointments');
+      const allAppointments = await appointmentsResponse.json();
+      const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor?.id);
+      setAppointments(doctorAppointments);
+
       // Fetch prescriptions for this doctor
       const prescriptionsResponse = await fetch('http://localhost:3001/prescriptions');
       const allPrescriptions = await prescriptionsResponse.json();
       const doctorPrescriptions = allPrescriptions.filter((presc: any) => presc.doctorId === doctor?.id);
       setPrescriptions(doctorPrescriptions);
-      
-      // Fetch appointments for this doctor
-      const appointmentsResponse = await fetch('http://localhost:3001/appointments');
-      const allAppointments = await appointmentsResponse.json();
-      const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor?.id);
-      
-      // Fetch patient profiles to get patient information
-      const patientsResponse = await fetch('http://localhost:3001/patient-profile');
-      const patientsData = await patientsResponse.json();
-      
-      // Add patient information to appointments
-      const appointmentsWithPatientInfo = doctorAppointments.map((apt: any) => {
-        const patient = patientsData.find((p: any) => p.id === apt.patientId);
-        return {
-          ...apt,
-          patientName: patient ? patient.name : 'Unknown Patient'
-        };
-      });
-      
-      setAppointments(appointmentsWithPatientInfo);
     } catch (error) {
       console.error('Failed to load data:', error);
     } finally {
@@ -169,8 +167,8 @@ export default function DoctorPrescriptions() {
   const handleMedicineChange = (index: number, field: keyof Medicine, value: string) => {
     setFormData(prev => ({
       ...prev,
-      medicines: prev.medicines.map((med, i) => 
-        i === index ? { ...med, [field]: value } : med
+      medicines: prev.medicines.map((medicine, i) => 
+        i === index ? { ...medicine, [field]: value } : medicine
       )
     }));
   };
@@ -192,18 +190,27 @@ export default function DoctorPrescriptions() {
     
     try {
       const prescriptionData = {
-        ...formData,
+        appointmentId: formData.appointmentId,
+        patientId: formData.patientId,
+        patientName: formData.patientName,
+        patientAge: formData.patientAge,
+        patientGender: formData.patientGender,
+        patientDiagnosis: formData.patientDiagnosis,
         doctorId: doctor?.id,
         doctorName: doctor?.name,
+        doctorSpecialization: doctor?.specialization,
+        doctorLicense: doctor?.licenseNumber,
+        medicines: formData.medicines,
+        notes: formData.notes,
         prescribedDate: new Date().toISOString().split('T')[0],
-        status: 'active',
-        medicines: formData.medicines.filter(med => med.name && med.dosage)
+        nextFollowUp: formData.nextFollowUp,
+        status: 'active'
       };
 
-      const url = editingPrescription 
+      const url = editingPrescription
         ? `http://localhost:3001/prescriptions/${editingPrescription.id}`
         : 'http://localhost:3001/prescriptions';
-      
+
       const method = editingPrescription ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -215,13 +222,12 @@ export default function DoctorPrescriptions() {
       });
 
       if (response.ok) {
-        await loadData();
         setShowForm(false);
         setEditingPrescription(null);
-        resetForm();
         setSuccessMessage(editingPrescription ? 'Prescription updated successfully!' : 'Prescription created successfully!');
         setShowSuccessMessage(true);
-        setTimeout(() => setShowSuccessMessage(false), 3000);
+        setTimeout(() => setShowSuccessMessage(false), 5000);
+        loadData();
       }
     } catch (error) {
       console.error('Failed to save prescription:', error);
@@ -234,6 +240,9 @@ export default function DoctorPrescriptions() {
       appointmentId: prescription.appointmentId,
       patientId: prescription.patientId,
       patientName: prescription.patientName,
+      patientAge: prescription.patientAge || '',
+      patientGender: prescription.patientGender || '',
+      patientDiagnosis: prescription.patientDiagnosis || '',
       medicines: prescription.medicines,
       notes: prescription.notes,
       nextFollowUp: prescription.nextFollowUp
@@ -250,12 +259,12 @@ export default function DoctorPrescriptions() {
       });
 
       if (response.ok) {
-        await loadData();
         setShowDeleteModal(false);
         setPrescriptionToDelete(null);
         setSuccessMessage('Prescription deleted successfully!');
         setShowSuccessMessage(true);
-        setTimeout(() => setShowSuccessMessage(false), 3000);
+        setTimeout(() => setShowSuccessMessage(false), 5000);
+        loadData();
       }
     } catch (error) {
       console.error('Failed to delete prescription:', error);
@@ -267,6 +276,9 @@ export default function DoctorPrescriptions() {
       appointmentId: '',
       patientId: '',
       patientName: '',
+      patientAge: '',
+      patientGender: '',
+      patientDiagnosis: '',
       medicines: [{ id: '', name: '', dosage: '', frequency: '', duration: '', instructions: '' }],
       notes: '',
       nextFollowUp: ''
@@ -576,7 +588,51 @@ export default function DoctorPrescriptions() {
                 {formData.patientName && (
                   <div className="bg-blue-50 rounded-xl p-4">
                     <h4 className="font-semibold text-blue-900 mb-2">Patient Information</h4>
-                    <p className="text-blue-700">{formData.patientName}</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Patient Name</label>
+                        <input
+                          type="text"
+                          value={formData.patientName}
+                          onChange={(e) => setFormData(prev => ({ ...prev, patientName: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                        <input
+                          type="text"
+                          value={formData.patientAge}
+                          onChange={(e) => setFormData(prev => ({ ...prev, patientAge: e.target.value }))}
+                          placeholder="e.g., 35 years"
+                          className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select
+                          value={formData.patientGender}
+                          onChange={(e) => setFormData(prev => ({ ...prev, patientGender: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        >
+                          <option value="">Select Gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Diagnosis</label>
+                      <textarea
+                        value={formData.patientDiagnosis}
+                        onChange={(e) => setFormData(prev => ({ ...prev, patientDiagnosis: e.target.value }))}
+                        placeholder="Patient diagnosis..."
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        rows={2}
+                      />
+                    </div>
                   </div>
                 )}
 
@@ -721,7 +777,7 @@ export default function DoctorPrescriptions() {
         )}
       </AnimatePresence>
 
-      {/* View Prescription Modal */}
+      {/* View Prescription Modal - New 4-Part Layout */}
       <AnimatePresence>
         {showViewModal && selectedPrescription && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -729,101 +785,170 @@ export default function DoctorPrescriptions() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Prescription Details</h3>
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => {
-                      // Print functionality would go here
-                    }}
-                    className="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors"
-                    title="Print"
-                  >
-                    <Printer className="h-4 w-4 text-blue-600" />
-                  </button>
-                  <button
-                    onClick={() => setShowViewModal(false)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <X className="h-5 w-5 text-gray-500" />
-                  </button>
+              {/* Part 1: Header with Clinic Logo and Doctor Info */}
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 rounded-t-2xl">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    {/* Clinic Logo */}
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                      <Building className="h-8 w-8 text-blue-600" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold">HealthCare Clinic</h2>
+                      <p className="text-blue-100">Excellence in Healthcare</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <h3 className="text-lg font-semibold">{selectedPrescription.doctorName}</h3>
+                    <p className="text-blue-100">{selectedPrescription.doctorSpecialization || 'General Physician'}</p>
+                    <p className="text-sm text-blue-200">License: {selectedPrescription.doctorLicense || 'MD12345'}</p>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                {/* Header */}
-                <div className="text-center border-b border-gray-200 pb-4">
-                  <h4 className="text-2xl font-bold text-gray-900 mb-2">Medical Prescription</h4>
-                  <p className="text-gray-600">Prescribed by {selectedPrescription.doctorName}</p>
-                  <p className="text-sm text-gray-500">Date: {selectedPrescription.prescribedDate}</p>
-                </div>
-
-                {/* Patient Info */}
-                <div className="bg-blue-50 rounded-xl p-4">
-                  <h5 className="font-semibold text-blue-900 mb-2">Patient Information</h5>
-                  <p className="text-blue-700">{selectedPrescription.patientName}</p>
-                </div>
-
-                {/* Medicines */}
-                <div>
-                  <h5 className="font-semibold text-gray-900 mb-3">Prescribed Medicines</h5>
-                  <div className="space-y-4">
-                    {selectedPrescription.medicines.map((medicine, index) => (
-                      <div key={index} className="bg-gray-50 rounded-xl p-4">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Pill className="h-4 w-4 text-blue-500" />
-                          <h6 className="font-semibold text-gray-900">{medicine.name}</h6>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <span className="font-medium text-gray-700">Dosage:</span> {medicine.dosage}
-                          </div>
-                          <div>
-                            <span className="font-medium text-gray-700">Frequency:</span> {medicine.frequency}
-                          </div>
-                          <div>
-                            <span className="font-medium text-gray-700">Duration:</span> {medicine.duration}
-                          </div>
-                        </div>
-                        {medicine.instructions && (
-                          <div className="mt-2">
-                            <span className="font-medium text-gray-700">Instructions:</span>
-                            <p className="text-gray-600 mt-1">{medicine.instructions}</p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
+              {/* Part 2: Patient Information */}
+              <div className="p-6 bg-gray-50">
+                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <User className="h-5 w-5 mr-2 text-blue-600" />
+                  Patient Information
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Name</label>
+                    <p className="text-gray-900 font-semibold">{selectedPrescription.patientName}</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Age</label>
+                    <p className="text-gray-900">{selectedPrescription.patientAge || 'Not specified'}</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Gender</label>
+                    <p className="text-gray-900">{selectedPrescription.patientGender || 'Not specified'}</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Date</label>
+                    <p className="text-gray-900">{selectedPrescription.prescribedDate}</p>
                   </div>
                 </div>
+                {selectedPrescription.patientDiagnosis && (
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700">Diagnosis</label>
+                    <p className="text-gray-900 bg-white p-3 rounded-lg border">{selectedPrescription.patientDiagnosis}</p>
+                  </div>
+                )}
+              </div>
 
-                {/* Notes */}
+              {/* Part 3: Medicines */}
+              <div className="p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <Pill className="h-5 w-5 mr-2 text-green-600" />
+                  Prescribed Medicines
+                </h3>
+                <div className="space-y-4">
+                  {selectedPrescription.medicines.map((medicine, index) => (
+                    <div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-semibold text-gray-900 text-lg">{medicine.name}</h4>
+                        <span className="text-sm text-gray-500">#{index + 1}</span>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="font-medium text-gray-700">Dosage:</span> {medicine.dosage}
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-700">Frequency:</span> {medicine.frequency}
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-700">Duration:</span> {medicine.duration}
+                        </div>
+                      </div>
+                      {medicine.instructions && (
+                        <div className="mt-3 p-3 bg-yellow-50 rounded-lg">
+                          <span className="font-medium text-gray-700">Instructions:</span>
+                          <p className="text-gray-600 mt-1">{medicine.instructions}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
                 {selectedPrescription.notes && (
-                  <div>
-                    <h5 className="font-semibold text-gray-900 mb-2">Notes</h5>
-                    <p className="text-gray-700 bg-yellow-50 rounded-xl p-4">{selectedPrescription.notes}</p>
+                  <div className="mt-6">
+                    <h4 className="font-semibold text-gray-900 mb-2">Additional Notes</h4>
+                    <p className="text-gray-700 bg-gray-50 p-4 rounded-lg border">{selectedPrescription.notes}</p>
                   </div>
                 )}
 
-                {/* Follow-up */}
-                <div className="bg-green-50 rounded-xl p-4">
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-4 w-4 text-green-600" />
-                    <span className="font-semibold text-green-900">Next Follow-up:</span>
-                    <span className="text-green-700">{selectedPrescription.nextFollowUp}</span>
+                {selectedPrescription.nextFollowUp && (
+                  <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-5 w-5 text-blue-600" />
+                      <span className="font-semibold text-blue-900">Next Follow-up:</span>
+                      <span className="text-blue-700">{selectedPrescription.nextFollowUp}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Part 4: Clinic Address Footer */}
+              <div className="bg-gray-900 text-white p-6 rounded-b-2xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="flex items-center space-x-3">
+                    <MapPin className="h-5 w-5 text-blue-400" />
+                    <div>
+                      <p className="font-semibold">Address</p>
+                      <p className="text-gray-300">123 Healthcare Street, Medical District, City - 12345</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Phone className="h-5 w-5 text-blue-400" />
+                    <div>
+                      <p className="font-semibold">Phone</p>
+                      <p className="text-gray-300">+1 (555) 123-4567</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Mail className="h-5 w-5 text-blue-400" />
+                    <div>
+                      <p className="font-semibold">Email</p>
+                      <p className="text-gray-300">info@healthcareclinic.com</p>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Status */}
+              {/* Modal Actions */}
+              <div className="p-6 bg-white border-t border-gray-200">
                 <div className="flex items-center justify-between">
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                    selectedPrescription.status === 'active' ? 'bg-green-100 text-green-800' :
-                    selectedPrescription.status === 'completed' ? 'bg-blue-100 text-blue-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
-                    {selectedPrescription.status}
-                  </span>
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      selectedPrescription.status === 'active' ? 'bg-green-100 text-green-800' :
+                      selectedPrescription.status === 'completed' ? 'bg-blue-100 text-blue-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {selectedPrescription.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => {
+                        // Print functionality would go here
+                        window.print();
+                      }}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                    >
+                      <Printer className="h-4 w-4" />
+                      <span>Print</span>
+                    </button>
+                    <button
+                      onClick={() => setShowViewModal(false)}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>

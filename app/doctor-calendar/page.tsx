@@ -38,7 +38,6 @@ import {
 
 const localizer = momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(Calendar);
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
 
 interface Appointment {
   id: string;
@@ -121,14 +120,14 @@ export default function DoctorCalendar() {
       setLoading(true);
       
       // Fetch all appointments
-      const appointmentsResponse = await fetch(`${BASE_URL}/appointments`);
+      const appointmentsResponse = await fetch('http://localhost:3001/appointments');
       const allAppointments = await appointmentsResponse.json();
       
       // Filter appointments for this doctor
       const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor?.id);
       
       // Fetch patient profiles to get patient information
-      const patientsResponse = await fetch(`${BASE_URL}/patient-profile`);
+      const patientsResponse = await fetch('http://localhost:3001/patient-profile');
       const patientsData = await patientsResponse.json();
       
       // Add patient information to appointments
@@ -208,7 +207,7 @@ export default function DoctorCalendar() {
     const { event, start } = args;
     
     // Update the appointment in the database
-    const response = await fetch(`${BASE_URL}/appointments/${event.id}`, {
+    const response = await fetch(`http://localhost:3001/appointments/${event.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -236,7 +235,7 @@ export default function DoctorCalendar() {
   const handleEventResize = async ({ event, start, end }: any) => {
     try {
       // Update the appointment in the database
-      const response = await fetch(`${BASE_URL}/appointments/${event.id}`, {
+      const response = await fetch(`http://localhost:3001/appointments/${event.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -276,7 +275,7 @@ export default function DoctorCalendar() {
     if (!eventToCancel) return;
     
     try {
-      const response = await fetch(`${BASE_URL}/appointments/${eventToCancel.id}`, {
+      const response = await fetch(`http://localhost:3001/appointments/${eventToCancel.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -298,7 +297,7 @@ export default function DoctorCalendar() {
     if (!eventToReschedule || !rescheduleDate || !rescheduleTime) return;
     
     try {
-      const response = await fetch(`${BASE_URL}/appointments/${eventToReschedule.id}`, {
+      const response = await fetch(`http://localhost:3001/appointments/${eventToReschedule.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -623,6 +622,22 @@ export default function DoctorCalendar() {
                 </div>
 
                 <div className="flex space-x-3 pt-4 border-t border-gray-200">
+                  <Link
+                    href={`/patient-medical-history/${selectedEvent.resource.patientId}`}
+                    className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Eye className="h-4 w-4" />
+                    <span>Medical History</span>
+                  </Link>
+                  {selectedEvent.resource.status === 'completed' && (
+                    <Link
+                      href={`/doctor-prescriptions?appointmentId=${selectedEvent.id}&patientId=${selectedEvent.resource.patientId}&patientName=${selectedEvent.resource.patientName}`}
+                      className="flex-1 px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <FileText className="h-4 w-4" />
+                      <span>Create Prescription</span>
+                    </Link>
+                  )}
                   <button
                     onClick={() => openRescheduleModal(selectedEvent)}
                     className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"

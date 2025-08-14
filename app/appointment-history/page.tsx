@@ -18,7 +18,8 @@ import {
   FileText,
   MapPin,
   Edit,
-  Trash2
+  Trash2,
+  Star
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -36,7 +37,6 @@ interface Appointment {
   status: 'confirmed' | 'completed' | 'cancelled' | 'pending';
 }
 
-const BASE_URL="https://mock-apis-pgcn.onrender.com"
 export default function AppointmentHistory() {
   const { patient } = useAuth();
   const router = useRouter();
@@ -63,7 +63,7 @@ export default function AppointmentHistory() {
   }
     try {
       setLoading(true);
-      const response = await fetch(`${BASE_URL}/appointments?patientId=${patient.id}`);
+      const response = await fetch(`http://localhost:3001/appointments?patientId=${patient.id}`);
       const appointmentsData = await response.json();
       setAppointments(appointmentsData);
     } catch (error) {
@@ -128,7 +128,7 @@ export default function AppointmentHistory() {
     if (!selectedAppointment) return;
 
     try {
-      const response = await fetch(`${BASE_URL}/appointments/${selectedAppointment.id}`, {
+      const response = await fetch(`http://localhost:3001/appointments/${selectedAppointment.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ export default function AppointmentHistory() {
           createdAt: new Date().toISOString()
         };
 
-        await fetch('${BASE_URL}/notifications', {
+        await fetch('http://localhost:3001/notifications', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -382,6 +382,19 @@ export default function AppointmentHistory() {
                              <Trash2 className="h-4 w-4" />
                              <span>Cancel</span>
                            </button>
+                         </div>
+                       )}
+
+                       {/* Action Button for Completed Appointments */}
+                       {appointment.status === 'completed' && (
+                         <div className="mt-4">
+                           <Link
+                             href="/patient-reviews"
+                             className="w-full bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                           >
+                             <Star className="h-4 w-4" />
+                             <span>Write a Review</span>
+                           </Link>
                          </div>
                        )}
                      </div>

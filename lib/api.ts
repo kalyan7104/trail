@@ -1,6 +1,6 @@
 // api.ts (converted to fetch-based API for JSON Server, no localStorage)
 
-const BASE_URL = "https://mock-apis-pgcn.onrender.com";
+const BASE_URL = 'http://localhost:3001';
 
 // Helper function
 const handleResponse = async (res: Response) => {
@@ -197,4 +197,47 @@ export const appointmentAPI = {
   return handleResponse(res);
 }
 
+};
+
+// Medical History API
+export const medicalHistoryAPI = {
+  async getPatientMedicalHistory(patientId: string) {
+    try {
+      // Fetch patient profile
+      const patientRes = await fetch(`${BASE_URL}/patient-profile/${patientId}`);
+      const patient = patientRes.ok ? await patientRes.json() : null;
+
+      // Fetch all appointments for the patient
+      const appointmentsRes = await fetch(`${BASE_URL}/appointments?patientId=${patientId}`);
+      const appointments = appointmentsRes.ok ? await appointmentsRes.json() : [];
+
+      // Fetch all prescriptions for the patient
+      const prescriptionsRes = await fetch(`${BASE_URL}/prescriptions?patientId=${patientId}`);
+      const prescriptions = prescriptionsRes.ok ? await prescriptionsRes.json() : [];
+
+      return {
+        patient,
+        appointments: appointments.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+        prescriptions: prescriptions.sort((a: any, b: any) => new Date(b.prescribedDate).getTime() - new Date(a.prescribedDate).getTime())
+      };
+    } catch (error) {
+      console.error('Error fetching medical history:', error);
+      throw error;
+    }
+  },
+
+  async getPatientById(patientId: string) {
+    const res = await fetch(`${BASE_URL}/patient-profile/${patientId}`);
+    return handleResponse(res);
+  },
+
+  async getAppointmentsByPatientId(patientId: string) {
+    const res = await fetch(`${BASE_URL}/appointments?patientId=${patientId}`);
+    return handleResponse(res);
+  },
+
+  async getPrescriptionsByPatientId(patientId: string) {
+    const res = await fetch(`${BASE_URL}/prescriptions?patientId=${patientId}`);
+    return handleResponse(res);
+  }
 };
