@@ -13,7 +13,7 @@ import {
   FileText
 } from 'lucide-react';
 import Link from 'next/link';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 export default function BookAppointment() {
   const { patient } = useAuth();
   const router = useRouter();
