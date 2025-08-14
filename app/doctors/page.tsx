@@ -17,6 +17,7 @@ import {
   DollarSign,
   Building
 } from 'lucide-react';
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 
 export default function DoctorsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +40,7 @@ export default function DoctorsPage() {
   const loadDoctors = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/doctors');
+      const response = await fetch(`${BASE_URL}/doctors`);
       const doctorsData = await response.json();
       setApiDoctors(doctorsData);
     } catch (error) {
