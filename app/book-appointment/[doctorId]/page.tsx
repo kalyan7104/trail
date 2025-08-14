@@ -19,7 +19,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 import Link from 'next/link';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface DoctorProfile {
   id: string;
   name: string;
@@ -68,7 +68,7 @@ export default function BookAppointmentPage() {
   const loadDoctorDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/doctor-profile/${doctorId}`);
+      const response = await fetch(`${BASE_URL}/doctor-profile/${doctorId}`);
       if (response.ok) {
         const doctorProfile = await response.json();
         setSelectedDoctor(doctorProfile);
@@ -130,7 +130,7 @@ export default function BookAppointmentPage() {
         status: 'confirmed'
       };
 
-      const response = await fetch('http://localhost:3001/appointments', {
+      const response = await fetch(`${BASE_URL}/appointments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export default function BookAppointmentPage() {
           createdAt: new Date().toISOString()
         };
 
-        await fetch('http://localhost:3001/notifications', {
+        await fetch(`${BASE_URL}/notifications`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ export default function BookAppointmentPage() {
           createdAt: new Date().toISOString()
         };
 
-        await fetch('http://localhost:3001/notifications', {
+        await fetch(`${BASE_URL}/notifications`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
