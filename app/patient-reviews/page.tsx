@@ -17,7 +17,7 @@ import {
   AlertCircle,
   RefreshCw
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Appointment {
   id: string;
   patientId: string;
@@ -83,7 +83,7 @@ export default function PatientReviews() {
 
   const loadCompletedAppointments = async () => {
     try {
-      const response = await fetch('http://localhost:3001/appointments');
+      const response = await fetch(`${BASE_URL}/appointments`);
       const appointments = await response.json();
       
       const completed = appointments.filter((apt: Appointment) => 
@@ -98,7 +98,7 @@ export default function PatientReviews() {
 
   const loadExistingReviews = async () => {
     try {
-      const response = await fetch('http://localhost:3001/reviews');
+      const response = await fetch(`${BASE_URL}/reviews`);
       const reviews = await response.json();
       
       const patientReviews = reviews.filter((rev: Review) => 
@@ -133,7 +133,7 @@ export default function PatientReviews() {
         updatedAt: new Date().toISOString()
       };
 
-      const response = await fetch('http://localhost:3001/reviews', {
+      const response = await fetch(`${BASE_URL}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
