@@ -61,6 +61,7 @@ export default function PatientDashboard() {
   }, [searchParams]);
 
   const loadDashboardData = async () => {
+    if (!patient) return;
     try {
       setLoading(true);
       await Promise.all([
