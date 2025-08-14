@@ -23,7 +23,7 @@ import {
   Clock,
   Plus
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Patient {
   id: string;
   name: string;
@@ -68,11 +68,11 @@ export default function DoctorPatientList() {
       setLoading(true);
       
       // Fetch all patients
-      const response = await fetch('http://localhost:3001/patient-profile');
+      const response = await fetch(`${BASE_URL}/patient-profile`);
       const patientsData = await response.json();
       
       // Fetch appointments to get patient statistics
-      const appointmentsResponse = await fetch('http://localhost:3001/appointments');
+      const appointmentsResponse = await fetch(`${BASE_URL}/appointments`);
       const allAppointments = await appointmentsResponse.json();
       
       // Filter appointments for this doctor
