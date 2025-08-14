@@ -40,7 +40,7 @@ interface Medicine {
   duration: string;
   instructions: string;
 }
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Prescription {
   id: string;
   appointmentId: string;
@@ -133,13 +133,13 @@ export default function DoctorPrescriptions() {
       setLoading(true);
       
       // Fetch appointments for this doctor
-      const appointmentsResponse = await fetch('http://localhost:3001/appointments');
+      const appointmentsResponse = await fetch(`${BASE_URL}/appointments`);
       const allAppointments = await appointmentsResponse.json();
       const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor?.id);
       setAppointments(doctorAppointments);
 
       // Fetch prescriptions for this doctor
-      const prescriptionsResponse = await fetch('http://localhost:3001/prescriptions');
+      const prescriptionsResponse = await fetch(`${BASE_URL}/prescriptions`);
       const allPrescriptions = await prescriptionsResponse.json();
       const doctorPrescriptions = allPrescriptions.filter((presc: any) => presc.doctorId === doctor?.id);
       setPrescriptions(doctorPrescriptions);
@@ -208,8 +208,8 @@ export default function DoctorPrescriptions() {
       };
 
       const url = editingPrescription
-        ? `http://localhost:3001/prescriptions/${editingPrescription.id}`
-        : 'http://localhost:3001/prescriptions';
+        ? `${BASE_URL}/prescriptions/${editingPrescription.id}`
+        : `${BASE_URL}/prescriptions`;
 
       const method = editingPrescription ? 'PUT' : 'POST';
 
@@ -254,7 +254,7 @@ export default function DoctorPrescriptions() {
     if (!prescriptionToDelete) return;
     
     try {
-      const response = await fetch(`http://localhost:3001/prescriptions/${prescriptionToDelete.id}`, {
+      const response = await fetch(`${BASE_URL}/prescriptions/${prescriptionToDelete.id}`, {
         method: 'DELETE',
       });
 
