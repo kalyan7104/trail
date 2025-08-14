@@ -13,7 +13,7 @@ interface ForgotPasswordForm {
   newPassword: string;
   confirmPassword: string;
 }
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 export default function DoctorForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
