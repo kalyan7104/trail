@@ -27,7 +27,7 @@ import {
 import Link from 'next/link';
 import { data } from 'framer-motion/client';
 import DoctorsPage from '../doctors/page';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Appointment {
   id: string | number;
   patientId: string;
@@ -97,7 +97,7 @@ export default function DoctorAppointments() {
 
   const loadAppointments = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/appointments`);
+      const response = await fetch(`${BASE_URL}/appointments`);
       const appointmentsData = await response.json();
       setAppointments(appointmentsData);
     } catch (error) {
@@ -107,7 +107,7 @@ export default function DoctorAppointments() {
 
   const loadPatients = async () => {
     try {
-      const response = await fetch('http://localhost:3001/patient-profile');
+      const response = await fetch(`${BASE_URL}/patient-profile`);
       const patientsData = await response.json();
       setPatients(patientsData);
     } catch (error) {
@@ -166,7 +166,7 @@ export default function DoctorAppointments() {
 
   const handleStatusUpdate = async (appointmentId: string | number, newStatus: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/appointments/${appointmentId}`, {
+      const response = await fetch(`${BASE_URL}/appointments/${appointmentId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -191,7 +191,7 @@ export default function DoctorAppointments() {
     if (!selectedAppointment || !rescheduleDate || !rescheduleTime) return;
     
     try {
-      const response = await fetch(`http://localhost:3001/appointments/${selectedAppointment.id}`, {
+      const response = await fetch(`${BASE_URL}/appointments/${selectedAppointment.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
