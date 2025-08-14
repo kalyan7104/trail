@@ -14,7 +14,7 @@ interface DoctorLoginForm {
   email: string;
   password: string;
 }
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 export default function DoctorLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
@@ -39,7 +39,7 @@ export default function DoctorLogin() {
       
       // Step 1: Validate login credentials against doctor-login
       const loginRes = await fetch(
-        `http://localhost:3001/doctor-login?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`
+        `${BASE_URL}/doctor-login?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`
       );
       
       if (!loginRes.ok) {
@@ -56,7 +56,7 @@ export default function DoctorLogin() {
 
       // Step 2: Fetch full profile using doctor-profile with case-insensitive matching
       const profileRes = await fetch(
-        `http://localhost:3001/doctor-profile`
+        `${BASE_URL}/doctor-profile`
       );
       
       if (!profileRes.ok) {
