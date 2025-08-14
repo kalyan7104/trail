@@ -25,7 +25,7 @@ import {
   Building,
   Clock
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 export default function DoctorProfile() {
   const { doctor, logout } = useDoctorAuth();
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function DoctorProfile() {
 
     const fetchDoctorProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/doctor-profile/${doctor.id}`);
+        const response = await fetch(`${BASE_URL}/doctor-profile/${doctor.id}`);
         if (!response.ok) throw new Error('Failed to fetch profile');
 
         const freshDoctor = await response.json();
@@ -103,7 +103,7 @@ export default function DoctorProfile() {
         id: doctorData.id,
       };
 
-      const res = await fetch(`http://localhost:3001/doctor-profile/${doctorData.id}`, {
+      const res = await fetch(`${BASE_URL}/doctor-profile/${doctorData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedPayload),
@@ -115,7 +115,7 @@ export default function DoctorProfile() {
       setDoctorData(updatedDoctor);
 
       if (formData.email !== doctorData.email) {
-        await fetch(`http://localhost:3001/doctor-login/${doctorData.id}`, {
+        await fetch(`${BASE_URL}/doctor-login/${doctorData.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: formData.email }),
