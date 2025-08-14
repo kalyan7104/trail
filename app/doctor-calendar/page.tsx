@@ -35,7 +35,7 @@ import {
   Clock as ClockIcon,
   GripVertical
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 const localizer = momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
@@ -120,14 +120,14 @@ export default function DoctorCalendar() {
       setLoading(true);
       
       // Fetch all appointments
-      const appointmentsResponse = await fetch('http://localhost:3001/appointments');
+      const appointmentsResponse = await fetch(`${BASE_URL}/appointments`);
       const allAppointments = await appointmentsResponse.json();
       
       // Filter appointments for this doctor
       const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor?.id);
       
       // Fetch patient profiles to get patient information
-      const patientsResponse = await fetch('http://localhost:3001/patient-profile');
+      const patientsResponse = await fetch(`${BASE_URL}/patient-profile`);
       const patientsData = await patientsResponse.json();
       
       // Add patient information to appointments
