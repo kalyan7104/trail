@@ -99,8 +99,9 @@ export default function DoctorLogin() {
     }
   };
 
+ 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden pt-20">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-green-400/20 to-emerald-400/20 rounded-full blur-3xl"></div>
@@ -113,18 +114,18 @@ export default function DoctorLogin() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="absolute top-6 left-6 z-10"
+        className="fixed top-6 left-6 z-50"
       >
         <Link 
           href="/" 
-          className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg"
+          className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
         >
           <ArrowLeft className="h-5 w-5" />
           <span className="font-medium">Back to Home</span>
         </Link>
       </motion.div>
 
-      <div className="relative z-10 flex-1 flex items-center justify-center p-4 min-h-screen">
+      <div className="relative flex-1 flex items-center justify-center p-4 min-h-screen">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
           
           {/* Left Side - Login Form */}
@@ -285,7 +286,7 @@ export default function DoctorLogin() {
                   className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200"
                 >
                   <p className="text-xs font-semibold text-green-800 mb-2">Demo Account:</p>
-                  <p className="text-xs text-green-700">Email: Satish@gmail.com</p>
+                  <p className="text-xs text-green-700">Email: sarah.johnson@hospital.com</p>
                   <p className="text-xs text-green-700">Password: 123456</p>
                 </motion.div>
               </div>
