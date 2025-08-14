@@ -28,6 +28,8 @@ import {
   Star
 } from 'lucide-react';
 
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
+
 export default function DoctorDashboard() {
   const { doctor, logout } = useDoctorAuth();
   const [todayAppointments, setTodayAppointments] = useState<any[]>([]);
@@ -82,14 +84,14 @@ export default function DoctorDashboard() {
       if (!doctor) return;
       
       // Fetch all appointments
-      const response = await fetch('http://localhost:3001/appointments');
+      const response = await fetch(`${BASE_URL}/appointments`);
       const allAppointments = await response.json();
       
       // Filter appointments for this doctor
       const doctorAppointments = allAppointments.filter((apt: any) => apt.doctorId === doctor.id);
       
       // Fetch patient profiles to get patient names
-      const patientsResponse = await fetch('http://localhost:3001/patient-profile');
+      const patientsResponse = await fetch(`${BASE_URL}/patient-profile`);
       const patientsData = await patientsResponse.json();
       
       // Add patient information to appointments
@@ -124,7 +126,7 @@ export default function DoctorDashboard() {
 
   const loadPatients = async () => {
     try {
-      const response = await fetch('http://localhost:3001/patient-profile');
+      const response = await fetch(`${BASE_URL}/patient-profile`);
       const patientsData = await response.json();
       setPatients(patientsData.slice(0, 5)); // Show first 5 patients
     } catch (error) {
@@ -135,7 +137,7 @@ export default function DoctorDashboard() {
   const loadNotifications = async () => {
     try {
       if (!doctor) return;
-      const response = await fetch('http://localhost:3001/notifications');
+      const response = await fetch(`${BASE_URL}/notifications`);
       const allNotifications = await response.json();
       
       // Filter notifications for this doctor
