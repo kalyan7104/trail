@@ -21,7 +21,7 @@ import {
   Mail,
   Building
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Medicine {
   id: string;
   name: string;
@@ -71,7 +71,7 @@ export default function PatientPrescriptions() {
   const loadPrescriptions = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/prescriptions');
+      const response = await fetch(`${BASE_URL}/prescriptions`);
       const allPrescriptions = await response.json();
       const patientPrescriptions = allPrescriptions.filter((presc: any) => presc.patientId === patient?.id);
       setPrescriptions(patientPrescriptions);
