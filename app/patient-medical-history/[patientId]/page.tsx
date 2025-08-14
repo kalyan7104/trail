@@ -31,7 +31,7 @@ import {
   ChevronUp,
   Printer
 } from 'lucide-react';
-
+const BASE_URL="https://mock-apis-pgcn.onrender.com";
 interface Patient {
   id: string;
   name: string;
